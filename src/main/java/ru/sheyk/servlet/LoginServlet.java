@@ -39,11 +39,9 @@ public class LoginServlet extends HttpServlet {
         user.setPassword(password);
 
         if (authenticationDAO.validateUser(user)) {
-            //HttpSession session = req.getSession();
-            // session.setAttribute("", "");
+            req.getSession().setAttribute("userName", user);
             resp.sendRedirect("loginSuccess.jsp");
         } else {
-            //HttpSession session = req.getSession();
             resp.sendRedirect("loginForm.jsp");
         }
     }

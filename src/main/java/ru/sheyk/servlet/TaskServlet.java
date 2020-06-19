@@ -2,6 +2,7 @@ package ru.sheyk.servlet;
 
 import ru.sheyk.DAO.TaskDAO;
 import ru.sheyk.model.Task;
+import ru.sheyk.model.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,6 +25,8 @@ public class TaskServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getServletPath();
+
+        System.out.println(req.getSession().getAttribute("userName"));
 
         switch (action) {
             case "/new":
@@ -60,10 +63,11 @@ public class TaskServlet extends HttpServlet {
     }
 
     private void insertTask(HttpServletRequest req, HttpServletResponse resp) {
+        int userId = taskDAO.getUserId((User)(req.getSession().getAttribute("userName")));
         String name = req.getParameter("name");
         String details = req.getParameter("details");
 
-        Task task = new Task(name, details);
+        Task task = new Task(name, details, userId);
         taskDAO.insertTask(task);
     }
 
@@ -86,8 +90,8 @@ public class TaskServlet extends HttpServlet {
         String name = req.getParameter("name");
         String details = req.getParameter("details");
 
-        Task task = new Task(id, name, details);
-        taskDAO.updateTask(task);
+ //       Task task = new Task(id, name, details);
+//        taskDAO.updateTask(task);
         resp.sendRedirect("list");
     }
 

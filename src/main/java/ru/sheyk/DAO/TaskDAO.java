@@ -1,6 +1,7 @@
 package ru.sheyk.DAO;
 
 import ru.sheyk.model.Task;
+import ru.sheyk.model.User;
 import ru.sheyk.util.DataSource;
 
 import java.sql.PreparedStatement;
@@ -16,6 +17,7 @@ public class TaskDAO {
     private static final String SELECT_ALL_TASKS = "SELECT * FROM tasks;";
     private static final String DELETE_TASK_BY_ID = "DELETE FROM tasks WHERE id = ?;";
     private static final String UPDATE_TASK_BY_ID = "UPDATE tasks SET name = ?, details = ? WHERE id = ?;";
+    private static final String GET_USER_BY_ID = "SELECT userId FROM users WHERE userName = ?;";
 
     public void insertTask(Task task) {
         try (PreparedStatement preparedStatement = DataSource.getConnection().prepareStatement(INSERT_TASK)) {
@@ -79,5 +81,17 @@ public class TaskDAO {
             throwables.printStackTrace();
         }
         return rowDeleted;
+    }
+
+    public int getUserId(User user) {
+        int userId = 0;
+        try (PreparedStatement preparedStatement = DataSource.getConnection().prepareStatement(GET_USER_BY_ID)) {
+            preparedStatement.setString(1, user.getUserName());
+            ResultSet rs = preparedStatement.executeQuery();
+            userId = rs.getInt("userId");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return userId;
     }
 }
