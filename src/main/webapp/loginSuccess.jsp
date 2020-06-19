@@ -1,0 +1,22 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: sheyk
+  Date: 6/18/2020
+  Time: 2:18 AM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+         pageEncoding="ISO-8859-1" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Logged in</title>
+</head>
+<body>
+<div align="center">
+    <h1>Oh, hi there</h1>
+    <a href="<%= request.getContextPath() %>/taskForm.jsp">Continue</a>
+</div>
+</body>
+</html>
