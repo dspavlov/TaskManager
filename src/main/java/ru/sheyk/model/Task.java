@@ -19,6 +19,11 @@ public class Task {
     public Task(String name, String details, int userId) {
         this.name = name;
         this.details = details;
+        this.userId = userId;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -27,6 +32,14 @@ public class Task {
 
     public String getDetails() {
         return details;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {

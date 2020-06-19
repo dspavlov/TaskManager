@@ -26,19 +26,15 @@ public class TaskServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getServletPath();
 
-        System.out.println(req.getSession().getAttribute("userName"));
-
         switch (action) {
             case "/new":
                 showNewForm(req, resp);
                 break;
             case "/insert":
                 insertTask(req, resp);
-                resp.sendRedirect("taskForm.jsp");
                 break;
             case "/delete":
                 deleteTask(req, resp);
-                resp.sendRedirect("taskForm.jsp");
                 break;
             case "/edit":
                 showEditForm(req, resp);
@@ -62,13 +58,13 @@ public class TaskServlet extends HttpServlet {
         dispatcher.forward(req, resp);
     }
 
-    private void insertTask(HttpServletRequest req, HttpServletResponse resp) {
+    private void insertTask(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int userId = taskDAO.getUserId((User)(req.getSession().getAttribute("userName")));
         String name = req.getParameter("name");
         String details = req.getParameter("details");
-
         Task task = new Task(name, details, userId);
         taskDAO.insertTask(task);
+        resp.sendRedirect("list");
     }
 
     private void deleteTask(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -90,14 +86,15 @@ public class TaskServlet extends HttpServlet {
         String name = req.getParameter("name");
         String details = req.getParameter("details");
 
- //       Task task = new Task(id, name, details);
-//        taskDAO.updateTask(task);
+        Task task = new Task(id, name, details);
+        taskDAO.updateTask(task);
         resp.sendRedirect("list");
     }
 
     private void showTaskList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Task> taskList = taskDAO.selectAllTasks();
-        req.setAttribute("taskList", taskList);
+        List<Task> showTaskList = taskDAO.selectAllTasks();
+        req.setAttribute("showTaskList", showTaskList);
+
         RequestDispatcher dispatcher = req.getRequestDispatcher("taskList.jsp");
         dispatcher.forward(req, resp);
     }

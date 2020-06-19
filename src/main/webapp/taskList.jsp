@@ -6,13 +6,14 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+         pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 
 <head>
-    <title>User Management Application</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Task manager</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
 <body>
@@ -50,27 +51,24 @@
             </tr>
             </thead>
             <tbody>
-            <!--   for (Todo todo: todos) {  -->
+
             <c:forEach var="task" items="${showTaskList}">
 
                 <tr>
                     <td>
-                        <c:out value="${task.id}" />
+                        <c:out value="${task.id}"/>
                     </td>
                     <td>
-                        <c:out value="${task.name}" />
+                        <c:out value="${task.name}"/>
                     </td>
                     <td>
-                        <c:out value="${task.email}" />
+                        <c:out value="${task.details}"/>
                     </td>
-                    <td>
-                        <c:out value="${task.country}" />
-                    </td>
-                    <td><a href="edit?id=<c:out value='${task.id}' />">Edit</a> &nbsp;&nbsp;&nbsp;&nbsp; <a href="delete?id=<c:out value='${task.id}' />">Delete</a></td>
+                    <td><a href="edit?id=<c:out value='${task.id}' />">Edit</a> &nbsp;&nbsp;&nbsp;&nbsp; <a
+                            href="delete?id=<c:out value='${task.id}' />">Delete</a></td>
                 </tr>
             </c:forEach>
             </tbody>
-
         </table>
     </div>
 </div>

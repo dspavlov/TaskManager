@@ -16,7 +16,7 @@
 <body>
 <div align="center">
     <h1>Oh, hi there</h1>
-    <a href="<%= request.getContextPath() %>/taskForm.jsp">Continue</a>
+    <a href="<%= request.getContextPath() %>/">Continue</a>
 </div>
 </body>
 </html>
