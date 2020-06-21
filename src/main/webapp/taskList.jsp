@@ -38,7 +38,7 @@
         <hr>
         <div class="container text-left">
 
-            <a href="<%=request.getContextPath()%>/new" class="btn btn-success">Add
+            <a href="<%=request.getContextPath()%>new" class="btn btn-success">Add
                 New Task</a>
         </div>
         <br>
@@ -64,8 +64,9 @@
                     <td>
                         <c:out value="${task.details}"/>
                     </td>
-                    <td><a href="edit?id=<c:out value='${task.id}' />">Edit</a> &nbsp;&nbsp;&nbsp;&nbsp; <a
-                            href="delete?id=<c:out value='${task.id}' />">Delete</a></td>
+                    <td>
+                        <a href="edit?id=<c:out value='${task.id}' />">Edit</a> &nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="delete?id=<c:out value='${task.id}' />">Delete</a></td>
                 </tr>
             </c:forEach>
             </tbody>

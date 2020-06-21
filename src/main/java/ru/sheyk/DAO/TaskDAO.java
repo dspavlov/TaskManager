@@ -1,7 +1,6 @@
 package ru.sheyk.DAO;
 
 import ru.sheyk.model.Task;
-import ru.sheyk.model.User;
 import ru.sheyk.util.DataSource;
 
 import java.sql.Connection;
@@ -11,14 +10,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskDAO {
+public class TaskDAO implements TaskDataManipulation {
 
     private static final String INSERT_TASK = "INSERT INTO tasks (name, details, userId) VALUES (?, ?, ?);";
     private static final String SELECT_TASK_BY_ID = "SELECT id, name, details FROM tasks WHERE id = ?;";
     private static final String SELECT_ALL_TASKS = "SELECT * FROM tasks WHERE userId = ?;";
     private static final String DELETE_TASK_BY_ID = "DELETE FROM tasks WHERE id = ?;";
     private static final String UPDATE_TASK_BY_ID = "UPDATE tasks SET name = ?, details = ? WHERE id = ?;";
-    private static final String GET_USER_BY_ID = "SELECT userId FROM users WHERE userName = ?;";
 
     public void insertTask(Task task) {
         try (Connection connection = DataSource.getConnection();
@@ -93,18 +91,4 @@ public class TaskDAO {
         return rowDeleted;
     }
 
-    public int getUserId(User user) {
-        int userId = 0;
-        try (Connection connection = DataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_ID)) {
-            preparedStatement.setString(1, user.getUserName());
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                userId = rs.getInt("userId");
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return userId;
-    }
 }

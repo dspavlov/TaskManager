@@ -8,12 +8,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AuthenticationDAO {
+public class AuthenticationDAO implements UserDataManipulation {
+
+    private static final String GET_USER_BY_ID = "SELECT userId FROM users WHERE userName = ?;";
+    private static final String USERNAME_SQL = "INSERT INTO users (userName, password) VALUES (?, ?);";
+    private static final String VALIDATION_SQL = "SELECT * FROM users WHERE userName = ? AND password = ?;";
 
     public void addUser(User user) {
-        String USERNAME_SQL = "INSERT INTO users" +
-                " (userName, password) VALUES " +
-                " (?, ?)";
 
         try (Connection connection = DataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(USERNAME_SQL);
@@ -26,8 +27,7 @@ public class AuthenticationDAO {
     }
 
     public boolean validateUser(User user) {
-        String VALIDATION_SQL = "SELECT * FROM users " +
-                " WHERE userName = ? AND password = ?";
+
         boolean status = false;
 
         try (PreparedStatement preparedStatement = DataSource.getConnection().prepareStatement(VALIDATION_SQL)) {
@@ -39,6 +39,21 @@ public class AuthenticationDAO {
             throwables.printStackTrace();
         }
         return status;
+    }
+
+    public int getUserId(User user) {
+        int userId = 0;
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_ID)) {
+            preparedStatement.setString(1, user.getUserName());
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                userId = rs.getInt("userId");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return userId;
     }
 
 }

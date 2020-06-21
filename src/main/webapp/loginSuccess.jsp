@@ -5,7 +5,7 @@
   Time: 2:18 AM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="ISO-8859-1" %>
 <!DOCTYPE html>
 <html>
@@ -16,7 +16,7 @@
 <body>
 <div align="center">
     <h1>Oh, hi there</h1>
-    <a href="<%= request.getContextPath() %>/">Continue</a>
+    <a href="<%= request.getContextPath() %>/taskList">Continue</a>
     <div align="center">
         <a href="<%= request.getContextPath() %>/logout">Logout</a>
     </div>
