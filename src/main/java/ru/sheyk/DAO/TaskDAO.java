@@ -15,7 +15,7 @@ public class TaskDAO {
 
     private static final String INSERT_TASK = "INSERT INTO tasks (name, details, userId) VALUES (?, ?, ?);";
     private static final String SELECT_TASK_BY_ID = "SELECT id, name, details FROM tasks WHERE id = ?;";
-    private static final String SELECT_ALL_TASKS = "SELECT * FROM tasks;";
+    private static final String SELECT_ALL_TASKS = "SELECT * FROM tasks WHERE userId = ?;";
     private static final String DELETE_TASK_BY_ID = "DELETE FROM tasks WHERE id = ?;";
     private static final String UPDATE_TASK_BY_ID = "UPDATE tasks SET name = ?, details = ? WHERE id = ?;";
     private static final String GET_USER_BY_ID = "SELECT userId FROM users WHERE userName = ?;";
@@ -36,6 +36,8 @@ public class TaskDAO {
         try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_TASK_BY_ID)) {
             preparedStatement.setString(1, task.getName());
+            preparedStatement.setString(2, task.getDetails());
+            preparedStatement.setInt(3, task.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -60,11 +62,12 @@ public class TaskDAO {
         return task;
     }
 
-    public List<Task> selectAllTasks() {
+    public List<Task> selectAllTasks(Task task) {
         List<Task> tasks = new ArrayList<>();
 
         try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_TASKS)) {
+            preparedStatement.setInt(1, task.getUserId());
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");

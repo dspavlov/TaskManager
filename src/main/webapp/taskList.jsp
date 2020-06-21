@@ -52,7 +52,7 @@
             </thead>
             <tbody>
 
-            <c:forEach var="task" items="${showTaskList}">
+            <c:forEach var="task" items="${taskList}">
 
                 <tr>
                     <td>

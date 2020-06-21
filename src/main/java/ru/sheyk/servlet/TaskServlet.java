@@ -92,8 +92,11 @@ public class TaskServlet extends HttpServlet {
     }
 
     private void showTaskList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Task> showTaskList = taskDAO.selectAllTasks();
-        req.setAttribute("showTaskList", showTaskList);
+        int userId = taskDAO.getUserId((User)(req.getSession().getAttribute("userName")));
+        Task task = new Task();
+        task.setUserId(userId);
+        List<Task> taskList = taskDAO.selectAllTasks(task);
+        req.setAttribute("taskList", taskList);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("taskList.jsp");
         dispatcher.forward(req, resp);

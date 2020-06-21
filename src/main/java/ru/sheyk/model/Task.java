@@ -49,4 +49,8 @@ public class Task {
     public void setDetails(String details) {
         this.details = details;
     }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 }
