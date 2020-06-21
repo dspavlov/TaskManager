@@ -31,7 +31,7 @@
         <input type="submit" value="Submit"/>
     </form>
     <div>Forgot your password? Sorry, I cannot send you an e-mail. Just push this button and create new account lol</div>
-    <a href="<%= request.getContextPath() %>/registerForm.jsp">The Button</a>
+    <a href="<%= request.getContextPath() %>/register">The Button</a>
 </div>
 </body>
 </html>

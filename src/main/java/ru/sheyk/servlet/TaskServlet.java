@@ -59,7 +59,7 @@ public class TaskServlet extends HttpServlet {
     }
 
     private void insertTask(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        int userId = taskDAO.getUserId((User)(req.getSession().getAttribute("userName")));
+        int userId = taskDAO.getUserId((User) (req.getSession().getAttribute("userName")));
         String name = req.getParameter("name");
         String details = req.getParameter("details");
         Task task = new Task(name, details, userId);
@@ -92,7 +92,7 @@ public class TaskServlet extends HttpServlet {
     }
 
     private void showTaskList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int userId = taskDAO.getUserId((User)(req.getSession().getAttribute("userName")));
+        int userId = taskDAO.getUserId((User) (req.getSession().getAttribute("userName")));
         Task task = new Task();
         task.setUserId(userId);
         List<Task> taskList = taskDAO.selectAllTasks(task);

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "register", value = "/register")
+@WebServlet("/register")
 public class RegistrationServlet extends HttpServlet {
 
     private AuthenticationDAO authenticationDAO;

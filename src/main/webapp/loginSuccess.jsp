@@ -17,6 +17,9 @@
 <div align="center">
     <h1>Oh, hi there</h1>
     <a href="<%= request.getContextPath() %>/">Continue</a>
+    <div align="center">
+        <a href="<%= request.getContextPath() %>/logout">Logout</a>
+    </div>
 </div>
 </body>
 </html>
