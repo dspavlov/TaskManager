@@ -1,7 +1,8 @@
-package ru.sheyk.servlet;
+package ru.sheykin.servlet;
 
-import ru.sheyk.DAO.AuthenticationDAO;
-import ru.sheyk.model.User;
+import ru.sheykin.model.User;
+import ru.sheykin.DAO.AuthenticationDAO;
+import ru.sheykin.util.PasswordAuth;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,20 +12,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/register")
+public class RegistrationServlet extends HttpServlet {
 
-    AuthenticationDAO authenticationDAO;
+    private AuthenticationDAO authenticationDAO;
 
     @Override
     public void init() throws ServletException {
-
         authenticationDAO = new AuthenticationDAO();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("loginForm.jsp");
+
+        RequestDispatcher dispatcher = req.getRequestDispatcher("registerForm.jsp");
         dispatcher.forward(req, resp);
     }
 
@@ -32,18 +33,20 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String userName = req.getParameter("userName");
-        String password = req.getParameter("password");
+        String password = null;
+
+        try {
+            password = PasswordAuth.getSaltedHash(req.getParameter("password"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         User user = new User();
         user.setUserName(userName);
         user.setPassword(password);
+        authenticationDAO.addUser(user);
 
-        if (authenticationDAO.validateUser(user)) {
-            req.getSession().setAttribute("userName", user);
-            resp.sendRedirect("loginSuccess.jsp");
-        } else {
-            resp.sendRedirect("loginForm.jsp");
-        }
+        RequestDispatcher dispatcher = req.getRequestDispatcher("registerDetails.jsp");
+        dispatcher.forward(req, resp);
     }
-
 }

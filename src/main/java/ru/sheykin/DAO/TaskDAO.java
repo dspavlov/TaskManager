@@ -1,7 +1,7 @@
-package ru.sheyk.DAO;
+package ru.sheykin.DAO;
 
-import ru.sheyk.model.Task;
-import ru.sheyk.util.DataSource;
+import ru.sheykin.model.Task;
+import ru.sheykin.util.DataSource;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -90,5 +90,4 @@ public class TaskDAO implements TaskDataManipulation {
         }
         return rowDeleted;
     }
-
 }

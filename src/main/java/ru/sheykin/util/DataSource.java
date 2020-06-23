@@ -1,4 +1,4 @@
-package ru.sheyk.util;
+package ru.sheykin.util;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -6,6 +6,9 @@ import com.zaxxer.hikari.HikariDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * Simple class for creating Connection Pool and getting Connections.
+ */
 public class DataSource {
 
     private static final HikariConfig config = new HikariConfig();
@@ -31,5 +34,4 @@ public class DataSource {
     public static Connection getConnection() throws SQLException {
         return ds.getConnection();
     }
-
 }

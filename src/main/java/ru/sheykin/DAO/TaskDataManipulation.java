@@ -1,6 +1,6 @@
-package ru.sheyk.DAO;
+package ru.sheykin.DAO;
 
-import ru.sheyk.model.Task;
+import ru.sheykin.model.Task;
 
 import java.util.List;
 
@@ -15,5 +15,4 @@ public interface TaskDataManipulation {
     List<Task> selectAllTasks(Task task);
 
     boolean deleteTask(int id);
-
 }

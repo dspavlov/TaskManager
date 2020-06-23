@@ -1,4 +1,4 @@
-package ru.sheyk.model;
+package ru.sheykin.model;
 
 public class Task {
 

@@ -1,6 +1,6 @@
-package ru.sheyk.DAO;
+package ru.sheykin.DAO;
 
-import ru.sheyk.model.User;
+import ru.sheykin.model.User;
 
 public interface UserDataManipulation {
 

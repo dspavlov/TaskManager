@@ -1,4 +1,4 @@
-package ru.sheyk.servlet;
+package ru.sheykin.servlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

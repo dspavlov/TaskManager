@@ -1,4 +1,4 @@
-package ru.sheyk.model;
+package ru.sheykin.model;
 
 public class User {
 
@@ -12,8 +12,6 @@ public class User {
     public String getPassword() {
         return password;
     }
-
-
 
     public void setUserName(String userName) {
         this.userName = userName;
