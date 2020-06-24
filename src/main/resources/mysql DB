@@ -1,0 +1,17 @@
+create table tasks
+(
+    id      int auto_increment
+        primary key,
+    name    varchar(250) not null,
+    details varchar(250) null,
+    userId  int          not null,
+    date    timestamp    not null
+);
+
+create table users
+(
+    userId   int auto_increment
+        primary key,
+    userName varchar(250) null,
+    password varchar(250) null
+);
