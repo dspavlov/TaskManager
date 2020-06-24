@@ -32,14 +32,8 @@ public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String userName = req.getParameter("userName");
-        String password = null;
-
-        try {
-            password = PasswordAuth.getSaltedHash(req.getParameter("password"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        final String userName = req.getParameter("userName");
+        final String password = PasswordAuth.getSaltedHash(req.getParameter("password"));
 
         User user = new User();
         user.setUserName(userName);

@@ -48,6 +48,8 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Details</th>
+                <th>Time</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -63,6 +65,9 @@
                     </td>
                     <td>
                         <c:out value="${task.details}"/>
+                    </td>
+                    <td>
+                        <c:out value="${task.date}"/>
                     </td>
                     <td>
                         <a href="edit?id=<c:out value='${task.id}' />">Edit</a> &nbsp;&nbsp;&nbsp;&nbsp;

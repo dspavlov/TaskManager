@@ -3,20 +3,18 @@ package ru.sheykin.DAO;
 import ru.sheykin.model.Task;
 import ru.sheykin.util.DataSource;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TaskDAO implements TaskDataManipulation {
 
-    private static final String INSERT_TASK = "INSERT INTO tasks (name, details, userId) VALUES (?, ?, ?);";
+    private static final String INSERT_TASK = "INSERT INTO tasks (name, details, userId, date) VALUES (?, ?, ?, ?);";
     private static final String SELECT_TASK_BY_ID = "SELECT id, name, details FROM tasks WHERE id = ?;";
     private static final String SELECT_ALL_TASKS = "SELECT * FROM tasks WHERE userId = ?;";
     private static final String DELETE_TASK_BY_ID = "DELETE FROM tasks WHERE id = ?;";
-    private static final String UPDATE_TASK_BY_ID = "UPDATE tasks SET name = ?, details = ? WHERE id = ?;";
+    private static final String UPDATE_TASK_BY_ID = "UPDATE tasks SET name = ?, details = ?, date= ? WHERE id = ?;";
 
     public void insertTask(Task task) {
         try (Connection connection = DataSource.getConnection();
@@ -24,6 +22,7 @@ public class TaskDAO implements TaskDataManipulation {
             preparedStatement.setString(1, task.getName());
             preparedStatement.setString(2, task.getDetails());
             preparedStatement.setInt(3, task.getUserId());
+            preparedStatement.setObject(4, task.getDate());
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -36,6 +35,7 @@ public class TaskDAO implements TaskDataManipulation {
             preparedStatement.setString(1, task.getName());
             preparedStatement.setString(2, task.getDetails());
             preparedStatement.setInt(3, task.getId());
+            preparedStatement.setTimestamp(4, Timestamp.valueOf(task.getDate()));
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -52,7 +52,8 @@ public class TaskDAO implements TaskDataManipulation {
             while (rs.next()) {
                 String name = rs.getString("name");
                 String details = rs.getString("details");
-                task = new Task(id, name, details);
+                LocalDateTime date = rs.getTimestamp("date").toLocalDateTime();
+                task = new Task(id, name, details, date);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -71,7 +72,8 @@ public class TaskDAO implements TaskDataManipulation {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
                 String details = rs.getString("details");
-                tasks.add(new Task(id, name, details));
+                LocalDateTime date = rs.getTimestamp("date").toLocalDateTime();
+                tasks.add(new Task(id, name, details, date));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

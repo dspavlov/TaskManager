@@ -1,25 +1,38 @@
 package ru.sheykin.model;
 
+import java.time.LocalDateTime;
+
 public class Task {
 
     private int id;
     private String name;
     private String details;
     private int userId;
+    private LocalDateTime date;
 
-    public Task() {
-    }
-
-    public Task(int id, String name, String details) {
+    public Task(int id, String name, String details, int userId, LocalDateTime date) {
         this.id = id;
         this.name = name;
         this.details = details;
+        this.userId = userId;
+        this.date = date;
     }
 
-    public Task(String name, String details, int userId) {
+    public Task(int id, String name, String details, LocalDateTime date) {
+        this.id = id;
+        this.name = name;
+        this.details = details;
+        this.date = date;
+    }
+
+    public Task(String name, String details, int userId, LocalDateTime date) {
         this.name = name;
         this.details = details;
         this.userId = userId;
+        this.date = date;
+    }
+
+    public Task() {
     }
 
     public int getId() {
@@ -36,6 +49,10 @@ public class Task {
 
     public int getUserId() {
         return userId;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
     }
 
     public void setId(int id) {

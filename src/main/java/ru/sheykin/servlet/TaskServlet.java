@@ -13,7 +13,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @WebServlet("/")
@@ -67,7 +69,8 @@ public class TaskServlet extends HttpServlet {
         int userId = userDataManipulation.getUserId((User) (req.getSession().getAttribute("userName")));
         String name = req.getParameter("name");
         String details = req.getParameter("details");
-        Task task = new Task(name, details, userId);
+        LocalDateTime ldt = LocalDateTime.now();
+        Task task = new Task(name, details, userId, ldt);
         taskDataManipulation.insertTask(task);
         resp.sendRedirect("list");
     }
@@ -90,8 +93,8 @@ public class TaskServlet extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("id"));
         String name = req.getParameter("name");
         String details = req.getParameter("details");
-
-        Task task = new Task(id, name, details);
+        LocalDateTime ldt = LocalDateTime.now();
+        Task task = new Task(id, name, details, ldt);
         taskDataManipulation.updateTask(task);
         resp.sendRedirect("list");
     }

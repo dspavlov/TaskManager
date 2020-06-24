@@ -30,7 +30,7 @@
         </table>
         <input type="submit" value="Submit"/>
     </form>
-    <div>Forgot your password? Sorry, I cannot send you an e-mail. Just push this button and create new account lol</div>
+    <div>Forgot your password? Sorry, I cannot send you an e-mail. Just push this button and create new account</div>
     <a href="<%= request.getContextPath() %>/register">The Button</a>
 </div>
 </body>
