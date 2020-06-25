@@ -1,6 +1,6 @@
 package ru.sheykin.servlet;
 
-import ru.sheykin.DAO.AuthenticationDAO;
+import ru.sheykin.DAO.*;
 import ru.sheykin.model.User;
 import ru.sheykin.util.PasswordAuth;
 
@@ -16,12 +16,11 @@ import java.io.IOException;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
-    AuthenticationDAO authenticationDAO;
+    private UserDataManipulation userDataManipulation;
 
     @Override
     public void init() throws ServletException {
-
-        authenticationDAO = new AuthenticationDAO();
+        userDataManipulation = DAOFactory.getDaoFactory().getUserDataManipulationInstance(DAOTypes.SQL);
     }
 
     @Override
@@ -35,7 +34,7 @@ public class LoginServlet extends HttpServlet {
 
         final String currentUserName = req.getParameter("userName");
         final String currentUserPassword = req.getParameter("password");
-        final User user = authenticationDAO.getUser(currentUserName);
+        final User user = userDataManipulation.getUser(currentUserName);
         final String userPasswordFromDB = user.getPassword();
 
         if(user.getUserName() != null

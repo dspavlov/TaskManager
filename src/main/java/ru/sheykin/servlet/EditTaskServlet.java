@@ -1,5 +1,7 @@
 package ru.sheykin.servlet;
 
+import ru.sheykin.DAO.DAOFactory;
+import ru.sheykin.DAO.DAOTypes;
 import ru.sheykin.DAO.TaskDAO;
 import ru.sheykin.DAO.TaskDataManipulation;
 import ru.sheykin.model.Task;
@@ -19,7 +21,7 @@ public class EditTaskServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        taskDataManipulation = new TaskDAO();
+        taskDataManipulation = DAOFactory.getDaoFactory().getTaskDataManipulationInstance(DAOTypes.SQL);
     }
 
     @Override

@@ -1,9 +1,9 @@
 package ru.sheykin.servlet;
 
-import ru.sheykin.DAO.AuthenticationDAO;
+import ru.sheykin.DAO.DAOFactory;
+import ru.sheykin.DAO.DAOTypes;
 import ru.sheykin.DAO.TaskDAO;
 import ru.sheykin.DAO.TaskDataManipulation;
-import ru.sheykin.DAO.UserDataManipulation;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +19,7 @@ public class DeleteTaskServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        taskDataManipulation = new TaskDAO();
+        taskDataManipulation = DAOFactory.getDaoFactory().getTaskDataManipulationInstance(DAOTypes.SQL);
     }
 
     @Override

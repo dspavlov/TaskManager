@@ -1,9 +1,6 @@
 package ru.sheykin.servlet;
 
-import ru.sheykin.DAO.AuthenticationDAO;
-import ru.sheykin.DAO.TaskDAO;
-import ru.sheykin.DAO.TaskDataManipulation;
-import ru.sheykin.DAO.UserDataManipulation;
+import ru.sheykin.DAO.*;
 import ru.sheykin.model.Task;
 import ru.sheykin.model.User;
 
@@ -22,8 +19,8 @@ public class AddNewTaskServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        userDataManipulation = new AuthenticationDAO();
-        taskDataManipulation = new TaskDAO();
+        taskDataManipulation = DAOFactory.getDaoFactory().getTaskDataManipulationInstance(DAOTypes.SQL);
+        userDataManipulation = DAOFactory.getDaoFactory().getUserDataManipulationInstance(DAOTypes.SQL);
     }
 
     @Override

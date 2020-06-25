@@ -1,7 +1,9 @@
 package ru.sheykin.servlet;
 
+import ru.sheykin.DAO.DAOFactory;
+import ru.sheykin.DAO.DAOTypes;
+import ru.sheykin.DAO.UserDataManipulation;
 import ru.sheykin.model.User;
-import ru.sheykin.DAO.AuthenticationDAO;
 import ru.sheykin.util.PasswordAuth;
 
 import javax.servlet.RequestDispatcher;
@@ -15,11 +17,12 @@ import java.io.IOException;
 @WebServlet("/register")
 public class RegistrationServlet extends HttpServlet {
 
-    private AuthenticationDAO authenticationDAO;
+    private UserDataManipulation userDataManipulation;
 
     @Override
     public void init() throws ServletException {
-        authenticationDAO = new AuthenticationDAO();
+        System.out.println(DAOFactory.getDaoFactory().getUserDataManipulationInstance(DAOTypes.SQL));
+        userDataManipulation = DAOFactory.getDaoFactory().getUserDataManipulationInstance((DAOTypes.SQL));
     }
 
     @Override
@@ -31,14 +34,13 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         final String userName = req.getParameter("userName");
         final String password = PasswordAuth.getSaltedHash(req.getParameter("password"));
 
         User user = new User();
         user.setUserName(userName);
         user.setPassword(password);
-        authenticationDAO.addUser(user);
+        userDataManipulation.addUser(user);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("registerDetails.jsp");
         dispatcher.forward(req, resp);

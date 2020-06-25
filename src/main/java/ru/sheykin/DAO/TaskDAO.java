@@ -16,6 +16,9 @@ public class TaskDAO implements TaskDataManipulation {
     private static final String DELETE_TASK_BY_ID = "DELETE FROM tasks WHERE id = ?;";
     private static final String UPDATE_TASK_BY_ID = "UPDATE tasks SET name = ?, details = ?, date= ? WHERE id = ?;";
 
+    TaskDAO() {
+    }
+
     public void insertTask(Task task) {
         try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TASK)) {

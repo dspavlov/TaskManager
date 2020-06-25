@@ -14,6 +14,9 @@ public class AuthenticationDAO implements UserDataManipulation {
     private static final String USERNAME_SQL = "INSERT INTO users (userName, password) VALUES (?, ?);";
     private static final String GET_USER_BY_USERNAME_SQL = "SELECT * FROM users WHERE userName = ?;";
 
+    AuthenticationDAO() {
+    }
+
     public void addUser(User user) {
 
         try (Connection connection = ru.sheykin.util.DataSource.getConnection()) {
