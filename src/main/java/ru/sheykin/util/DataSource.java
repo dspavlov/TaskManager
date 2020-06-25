@@ -7,8 +7,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * Simple class for creating Connection Pool and getting Connections.
+ * Connection pool handler
  */
+
 public class DataSource {
 
     private static final HikariConfig config = new HikariConfig();

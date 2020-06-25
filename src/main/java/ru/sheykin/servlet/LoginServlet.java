@@ -40,7 +40,7 @@ public class LoginServlet extends HttpServlet {
         if(user.getUserName() != null
                 && user.getUserName().equals(currentUserName)
                 && PasswordAuth.check(currentUserPassword, userPasswordFromDB)) {
-            final HttpSession httpSession = req.getSession();
+            HttpSession httpSession = req.getSession();
             httpSession.setAttribute("userName", user);
             resp.sendRedirect("loginSuccess.jsp");
         } else {

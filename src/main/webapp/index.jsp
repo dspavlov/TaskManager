@@ -11,7 +11,7 @@
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>Стартовая страница</title>
+    <title>Start page</title>
 </head>
 <body>
 <p><input type="submit" value="Login"

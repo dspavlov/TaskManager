@@ -9,19 +9,16 @@ import java.security.spec.InvalidKeySpecException;
 
 import org.apache.commons.codec.binary.Base64;
 
+/**
+ * Password salty hashing with PBKDF2 algorithm
+ */
+
 public class PasswordAuth {
 
     private static final int ITERATIONS = 1000;
     private static final int SALTEN = 32;
     private static final int DESIRED_KEY_LEN = 256;
 
-    /**
-     * Computes a salted PBKDF2 hash of given plaintext password
-     *      suitable for storing in a database.
-     *      Empty passwords are not supported.
-     * @param password
-     * @return
-     */
     public static String getSaltedHash(String password) {
         byte[] salt;
         try {
@@ -32,13 +29,6 @@ public class PasswordAuth {
         }
     }
 
-    /**
-     * Checks whether given plaintext password corresponds
-     *      to a stored salted hash of the password.
-     * @param password
-     * @param stored
-     * @return
-     */
     public static boolean check(String password, String stored) {
         String[] saltAndPass = stored.split("\\$");
         if (saltAndPass.length != 2) {
@@ -54,18 +44,10 @@ public class PasswordAuth {
         return hashOfInput.equals(saltAndPass[1]);
     }
 
-    /**
-     *
-     * @param password
-     * @param salt
-     * @return
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidKeySpecException
-     */
-
     private static String hash(String password, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
         if (password == null || password.length() == 0)
-            throw new IllegalArgumentException("Empty passwords are not supported.");
+            throw new IllegalArgumentException(
+                    "Empty passwords are not supported.");
         SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
         SecretKey key = f.generateSecret(new PBEKeySpec(
                 password.toCharArray(), salt, ITERATIONS, DESIRED_KEY_LEN)

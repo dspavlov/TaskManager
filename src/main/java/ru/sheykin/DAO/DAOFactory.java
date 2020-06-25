@@ -2,6 +2,10 @@ package ru.sheykin.DAO;
 
 import java.util.EnumMap;
 
+/**
+ * Factory class that allows you to get the instance of a necessary class
+ */
+
 public class DAOFactory {
 
     private static final DAOFactory daoFactory = new DAOFactory();
@@ -13,8 +17,8 @@ public class DAOFactory {
         cachedDaoTypesTaskData.put(DAOTypes.SQL, new TaskDAO());
         cachedDaoTypesTaskData.put(DAOTypes.NOSQL, new TaskDAO());
         cachedDaoTypesUserData = new EnumMap(DAOTypes.class);
-        cachedDaoTypesUserData.put(DAOTypes.SQL, new AuthenticationDAO());
-        cachedDaoTypesUserData.put(DAOTypes.NOSQL, new AuthenticationDAO());
+        cachedDaoTypesUserData.put(DAOTypes.SQL, new UserDAO());
+        cachedDaoTypesUserData.put(DAOTypes.NOSQL, new UserDAO());
     }
 
     public static DAOFactory getDaoFactory() {

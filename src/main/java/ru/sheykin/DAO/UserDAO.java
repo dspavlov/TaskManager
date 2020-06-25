@@ -8,13 +8,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AuthenticationDAO implements UserDataManipulation {
+public class UserDAO implements UserDataManipulation {
 
     private static final String GET_USER_BY_ID_SQL = "SELECT userId FROM users WHERE userName = ?;";
     private static final String USERNAME_SQL = "INSERT INTO users (userName, password) VALUES (?, ?);";
     private static final String GET_USER_BY_USERNAME_SQL = "SELECT * FROM users WHERE userName = ?;";
 
-    AuthenticationDAO() {
+    UserDAO() {
     }
 
     public void addUser(User user) {
