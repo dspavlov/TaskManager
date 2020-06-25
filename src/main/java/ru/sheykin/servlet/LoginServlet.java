@@ -32,10 +32,10 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        final String currentUserName = req.getParameter("userName");
-        final String currentUserPassword = req.getParameter("password");
-        final User user = userDataManipulation.getUser(currentUserName);
-        final String userPasswordFromDB = user.getPassword();
+        String currentUserName = req.getParameter("userName");
+        String currentUserPassword = req.getParameter("password");
+        User user = userDataManipulation.getUser(currentUserName);
+        String userPasswordFromDB = user.getPassword();
 
         if(user.getUserName() != null
                 && user.getUserName().equals(currentUserName)
