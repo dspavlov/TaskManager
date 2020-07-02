@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
+import static javax.servlet.http.HttpServletResponse.*;
+
 @WebServlet("/insert")
 public class AddNewTaskServlet extends HttpServlet {
     private UserDataManipulation userDataManipulation;
@@ -30,7 +32,10 @@ public class AddNewTaskServlet extends HttpServlet {
         String details = req.getParameter("details");
         LocalDateTime ldt = LocalDateTime.now();
         Task task = new Task(name, details, userId, ldt);
-        taskDataManipulation.insertTask(task);
-        resp.sendRedirect("list");
+        if (taskDataManipulation.addTask(task) == 1) {
+            resp.setStatus(SC_CREATED);
+            resp.sendRedirect("list");
+        } else
+            resp.setStatus(SC_BAD_REQUEST);
     }
 }

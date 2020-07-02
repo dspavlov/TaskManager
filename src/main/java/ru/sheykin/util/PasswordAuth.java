@@ -16,13 +16,13 @@ import org.apache.commons.codec.binary.Base64;
 public class PasswordAuth {
 
     private static final int ITERATIONS = 1000;
-    private static final int SALTEN = 32;
+    private static final int SALT = 32;
     private static final int DESIRED_KEY_LEN = 256;
 
     public static String getSaltedHash(String password) {
         byte[] salt;
         try {
-            salt = SecureRandom.getInstance("SHA1PRNG").generateSeed(SALTEN);
+            salt = SecureRandom.getInstance("SHA1PRNG").generateSeed(SALT);
             return Base64.encodeBase64String(salt) + "$" + hash(password, salt);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new IllegalStateException("No algorithm found");

@@ -11,7 +11,7 @@ import java.util.List;
 public class TaskDAO implements TaskDataManipulation {
 
     private static final String INSERT_TASK = "INSERT INTO tasks (name, details, userId, date) VALUES (?, ?, ?, ?);";
-    private static final String SELECT_TASK_BY_ID = "SELECT id, name, details FROM tasks WHERE id = ?;";
+    private static final String SELECT_TASK_BY_ID = "SELECT id, name, details, date FROM tasks WHERE id = ?;";
     private static final String SELECT_ALL_TASKS = "SELECT * FROM tasks WHERE userId = ?;";
     private static final String DELETE_TASK_BY_ID = "DELETE FROM tasks WHERE id = ?;";
     private static final String UPDATE_TASK_BY_ID = "UPDATE tasks SET name = ?, details = ?, date= ? WHERE id = ?;";
@@ -19,30 +19,35 @@ public class TaskDAO implements TaskDataManipulation {
     TaskDAO() {
     }
 
-    public void insertTask(Task task) {
+    public int addTask(Task task) {
+        int status = 0;
         try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TASK)) {
             preparedStatement.setString(1, task.getName());
             preparedStatement.setString(2, task.getDetails());
             preparedStatement.setInt(3, task.getUserId());
             preparedStatement.setObject(4, task.getDate());
-            preparedStatement.executeUpdate();
+            status = preparedStatement.executeUpdate();
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        return status;
     }
 
-    public void updateTask(Task task) {
+    public int updateTask(Task task) {
+        int status = 0;
         try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_TASK_BY_ID)) {
             preparedStatement.setString(1, task.getName());
             preparedStatement.setString(2, task.getDetails());
-            preparedStatement.setInt(3, task.getId());
-            preparedStatement.setTimestamp(4, Timestamp.valueOf(task.getDate()));
-            preparedStatement.executeUpdate();
+            preparedStatement.setTimestamp(3, Timestamp.valueOf(task.getDate()));
+            preparedStatement.setInt(4, task.getId());
+            status = preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        return status;
     }
 
     public Task selectTask(int id) {
@@ -84,15 +89,15 @@ public class TaskDAO implements TaskDataManipulation {
         return tasks;
     }
 
-    public boolean deleteTask(int id) {
-        boolean rowDeleted = false;
+    public int deleteTask(int id) {
+        int status = 0;
         try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE_TASK_BY_ID)) {
             preparedStatement.setInt(1, id);
-            rowDeleted = preparedStatement.executeUpdate() > 0;
+            status = preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return rowDeleted;
+        return status;
     }
 }

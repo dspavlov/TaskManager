@@ -16,12 +16,19 @@ public class DataSource {
     private static final HikariDataSource ds;
     private final static String userName = "root";
     private final static String password = "1488";
-    private final static String connectionUrl = "jdbc:mysql://localhost:3306/test?verifyServerCertificate=false&useSSL=false&useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+    private final static String connectionUrl = "jdbc:mysql://localhost:3306/test";
 
     static {
         config.setJdbcUrl(connectionUrl);
         config.setUsername(userName);
         config.setPassword(password);
+        config.addDataSourceProperty("verifyServerCertificate", "false");
+        config.addDataSourceProperty("useSSL", "false");
+        config.addDataSourceProperty("useUnicode", "true");
+        config.addDataSourceProperty("characterEncoding", "utf8");
+        config.addDataSourceProperty("serverTimezone", "Europe/Moscow");
+        config.addDataSourceProperty("useJDBCCompliantTimezoneShift", "true");
+        config.addDataSourceProperty("useLegacyDatetimeCode", "false");
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");

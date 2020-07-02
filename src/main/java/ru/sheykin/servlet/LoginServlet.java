@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
@@ -40,10 +42,12 @@ public class LoginServlet extends HttpServlet {
         if(user.getUserName() != null
                 && user.getUserName().equals(currentUserName)
                 && PasswordAuth.check(currentUserPassword, userPasswordFromDB)) {
+            resp.setStatus(HttpServletResponse.SC_OK);
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("userName", user);
             resp.sendRedirect("loginSuccess.jsp");
         } else {
+            resp.setStatus(SC_UNAUTHORIZED);
             resp.sendRedirect("loginForm.jsp");
         }
     }

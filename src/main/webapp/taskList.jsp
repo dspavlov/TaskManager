@@ -70,7 +70,7 @@
                         <c:out value="${task.date}"/>
                     </td>
                     <td>
-                        <a href="edit?id=<c:out value='${task.id}' />">Edit</a> &nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="edit?id=<c:out value='${task.id}' />">Edit</a> 
                         <a href="delete?id=<c:out value='${task.id}' />">Delete</a></td>
                 </tr>
             </c:forEach>
