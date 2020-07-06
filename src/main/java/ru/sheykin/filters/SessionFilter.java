@@ -33,9 +33,8 @@ public class SessionFilter implements Filter {
         boolean allowedPath = ALLOWED_PATHS.contains(path);
 
         if (loggedIn || allowedPath) {
-            filterChain. doFilter(request, response);
-        }
-        else {
+            filterChain.doFilter(request, response);
+        } else {
             response.sendRedirect(request.getContextPath() + "/login");
         }
     }

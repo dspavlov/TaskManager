@@ -5,6 +5,7 @@ import ru.sheykin.DAO.DAOTypes;
 import ru.sheykin.DAO.TaskDataManipulation;
 import ru.sheykin.model.Task;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
+/**
+ * Shows all the tasks for current user
+ */
 @WebServlet("/update")
 public class UpdateTaskServlet extends HttpServlet {
 
@@ -31,6 +35,7 @@ public class UpdateTaskServlet extends HttpServlet {
         LocalDateTime ldt = LocalDateTime.now();
         Task task = new Task(id, name, details, ldt);
         taskDataManipulation.updateTask(task);
-        resp.sendRedirect("list");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("list");
+        dispatcher.forward(req, resp);
     }
 }

@@ -10,8 +10,8 @@ import java.sql.SQLException;
 
 public class UserDAO implements UserDataManipulation {
 
-    private static final String GET_USER_BY_ID_SQL = "SELECT userId FROM users WHERE userName = ?;";
-    private static final String USERNAME_SQL = "INSERT INTO users (userName, password) VALUES (?, ?);";
+    private static final String GET_USER_BY_USERNAME = "SELECT * FROM users WHERE userName = ?;";
+    private static final String ADD_USER = "INSERT INTO users (userName, password) VALUES (?, ?);";
     private static final String GET_USER_BY_USERNAME_SQL = "SELECT * FROM users WHERE userName = ?;";
 
     UserDAO() {
@@ -20,9 +20,8 @@ public class UserDAO implements UserDataManipulation {
     public void addUser(User user) {
 
         try (Connection connection = ru.sheykin.util.DataSource.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(USERNAME_SQL);
+            PreparedStatement preparedStatement = connection.prepareStatement(ADD_USER);
             preparedStatement.setString(1, user.getUserName());
-            System.out.println(user.getPassword());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
@@ -49,7 +48,7 @@ public class UserDAO implements UserDataManipulation {
     public int getUserId(User user) {
         int userId = 0;
         try (Connection connection = DataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_ID_SQL)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_USERNAME)) {
             preparedStatement.setString(1, user.getUserName());
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -59,5 +58,23 @@ public class UserDAO implements UserDataManipulation {
             throwables.printStackTrace();
         }
         return userId;
+    }
+
+    public boolean isUserExists(String userName) {
+        boolean flag = false;
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_USERNAME)) {
+            preparedStatement.setString(1, userName);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                String userNameFromDB = rs.getString("userName");
+                if (userNameFromDB.equals(userName)) {
+                    flag = true;
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return flag;
     }
 }

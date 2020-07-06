@@ -4,6 +4,7 @@ import ru.sheykin.DAO.*;
 import ru.sheykin.model.Task;
 import ru.sheykin.model.User;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,7 +35,8 @@ public class AddNewTaskServlet extends HttpServlet {
         Task task = new Task(name, details, userId, ldt);
         if (taskDataManipulation.addTask(task) == 1) {
             resp.setStatus(SC_CREATED);
-            resp.sendRedirect("list");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("list");
+            dispatcher.forward(req, resp);
         } else
             resp.setStatus(SC_BAD_REQUEST);
     }

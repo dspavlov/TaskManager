@@ -4,6 +4,7 @@ import ru.sheykin.DAO.DAOFactory;
 import ru.sheykin.DAO.DAOTypes;
 import ru.sheykin.DAO.TaskDataManipulation;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,8 +33,8 @@ public class DeleteTaskServlet extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         if (taskDataManipulation.deleteTask(id) == 1) {
-            resp.setStatus(SC_OK);
-            resp.sendRedirect("list");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("list");
+            dispatcher.forward(req, resp);
         } else
             resp.setStatus(SC_NO_CONTENT);
     }

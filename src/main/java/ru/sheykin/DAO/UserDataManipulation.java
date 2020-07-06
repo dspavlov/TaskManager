@@ -9,4 +9,6 @@ public interface UserDataManipulation {
     User getUser(String userName);
 
     void addUser(User user);
+
+    boolean isUserExists(String userName);
 }

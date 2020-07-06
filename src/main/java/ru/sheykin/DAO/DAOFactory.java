@@ -11,6 +11,7 @@ public class DAOFactory {
     private static final DAOFactory daoFactory = new DAOFactory();
     private EnumMap<DAOTypes, TaskDataManipulation> cachedDaoTypesTaskData;
     private EnumMap<DAOTypes, UserDataManipulation> cachedDaoTypesUserData;
+    private EnumMap<DAOTypes, UserDataManipulation> cachedDaoTypesGoalData;
 
     private DAOFactory() {
         cachedDaoTypesTaskData = new EnumMap(DAOTypes.class);
@@ -19,6 +20,9 @@ public class DAOFactory {
         cachedDaoTypesUserData = new EnumMap(DAOTypes.class);
         cachedDaoTypesUserData.put(DAOTypes.SQL, new UserDAO());
         cachedDaoTypesUserData.put(DAOTypes.NOSQL, new UserDAO());
+        cachedDaoTypesGoalData = new EnumMap(DAOTypes.class);
+        cachedDaoTypesGoalData.put(DAOTypes.SQL, new UserDAO());
+        cachedDaoTypesGoalData.put(DAOTypes.NOSQL, new UserDAO());
     }
 
     public static DAOFactory getDaoFactory() {
@@ -31,5 +35,9 @@ public class DAOFactory {
 
     public UserDataManipulation getUserDataManipulationInstance(DAOTypes daoTypes) {
         return cachedDaoTypesUserData.get(daoTypes);
+    }
+
+    public UserDataManipulation getGoalDataManipulationInstance(DAOTypes daoTypes) {
+        return cachedDaoTypesGoalData.get(daoTypes);
     }
 }

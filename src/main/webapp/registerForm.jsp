@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-         pageEncoding="ISO-8859-1" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,7 +22,22 @@
         </table>
         <input type="submit" value="Submit"/>
     </form>
+
     <a href="<%= request.getContextPath() %>/loginForm.jsp">Or login</a>
+
+    <div  align="left">
+        <strong>Password: </strong>
+        <br>
+        -At least 8 chars
+        <br>
+        -Contains at least one digit
+        <br>
+        -Contains at least one lower alpha char and one upper alpha char
+        <br>
+        -Contains at least one char within a set of special chars (@#%$^ etc.)
+        <br>
+        -Does not contain space, tab, etc.
+    </div>
 </div>
 </body>
 </html>

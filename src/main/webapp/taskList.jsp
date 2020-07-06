@@ -70,8 +70,10 @@
                         <c:out value="${task.date}"/>
                     </td>
                     <td>
-                        <a href="edit?id=<c:out value='${task.id}' />">Edit</a> 
-                        <a href="delete?id=<c:out value='${task.id}' />">Delete</a></td>
+                        <a href="edit?id=<c:out value='${task.id}' />">Edit</a>
+                        <a href="delete?id=<c:out value='${task.id}' />">Delete</a>
+                        <a href="setGoal?id=<c:out value='${task.id}' />">Set Goal</a>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>

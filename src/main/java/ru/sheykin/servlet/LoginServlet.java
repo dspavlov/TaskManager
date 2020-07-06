@@ -7,10 +7,7 @@ import ru.sheykin.util.PasswordAuth;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
@@ -33,22 +30,23 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         String currentUserName = req.getParameter("userName");
         String currentUserPassword = req.getParameter("password");
         User user = userDataManipulation.getUser(currentUserName);
         String userPasswordFromDB = user.getPassword();
 
-        if(user.getUserName() != null
+        if (user.getUserName() != null
                 && user.getUserName().equals(currentUserName)
                 && PasswordAuth.check(currentUserPassword, userPasswordFromDB)) {
-            resp.setStatus(HttpServletResponse.SC_OK);
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("userName", user);
-            resp.sendRedirect("loginSuccess.jsp");
+
+            RequestDispatcher dispatcher = req.getRequestDispatcher("loginSuccess.jsp");
+            dispatcher.forward(req, resp);
         } else {
             resp.setStatus(SC_UNAUTHORIZED);
-            resp.sendRedirect("loginForm.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("loginForm.jsp");
+            dispatcher.forward(req, resp);
         }
     }
 }

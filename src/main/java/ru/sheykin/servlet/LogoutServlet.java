@@ -1,5 +1,6 @@
 package ru.sheykin.servlet;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,13 +10,14 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/logout")
-public class LogoutServlet  extends HttpServlet {
+public class LogoutServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         HttpSession httpSession = req.getSession();
         httpSession.invalidate();
-        resp.sendRedirect("/login");
+
+        RequestDispatcher dispatcher = req.getRequestDispatcher("login");
+        dispatcher.forward(req, resp);
     }
 }

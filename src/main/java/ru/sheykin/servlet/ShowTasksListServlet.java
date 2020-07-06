@@ -14,8 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/")
-public class TasksListServlet extends HttpServlet {
+/**
+ * Shows all the tasks for current user
+ */
+@WebServlet("/list")
+public class ShowTasksListServlet extends HttpServlet {
 
     private UserDataManipulation userDataManipulation;
     private TaskDataManipulation taskDataManipulation;

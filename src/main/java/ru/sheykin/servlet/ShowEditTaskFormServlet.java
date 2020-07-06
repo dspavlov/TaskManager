@@ -13,10 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static javax.servlet.http.HttpServletResponse.SC_OK;
+/**
+ *
+ */
 
 @WebServlet("/edit")
-public class EditTaskServlet extends HttpServlet {
+public class ShowEditTaskFormServlet extends HttpServlet {
 
     private TaskDataManipulation taskDataManipulation;
 
@@ -29,8 +31,6 @@ public class EditTaskServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         Task task = taskDataManipulation.selectTask(id);
-        if(task.getName() != null)
-            resp.setStatus(SC_OK);
         RequestDispatcher dispatcher = req.getRequestDispatcher("taskForm.jsp");
         req.setAttribute("task", task);
         dispatcher.forward(req, resp);

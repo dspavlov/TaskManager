@@ -13,6 +13,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static javax.servlet.http.HttpServletResponse.*;
 
 @WebServlet("/register")
 public class RegistrationServlet extends HttpServlet {
@@ -21,7 +25,6 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        System.out.println(DAOFactory.getDaoFactory().getUserDataManipulationInstance(DAOTypes.SQL));
         userDataManipulation = DAOFactory.getDaoFactory().getUserDataManipulationInstance((DAOTypes.SQL));
     }
 
@@ -34,15 +37,36 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+!=])(?=\\S+$).{8,}$";
+
         String userName = req.getParameter("userName");
-        String password = PasswordAuth.getSaltedHash(req.getParameter("password"));
+        String password = req.getParameter("password");
 
-        User user = new User();
-        user.setUserName(userName);
-        user.setPassword(password);
-        userDataManipulation.addUser(user);
+        Pattern passwordPattern = Pattern.compile(passwordRegex);
+        Matcher passwordMatcher = passwordPattern.matcher(password);
 
-        RequestDispatcher dispatcher = req.getRequestDispatcher("registerDetails.jsp");
-        dispatcher.forward(req, resp);
+        Pattern emailPattern = Pattern.compile(emailRegex);
+        Matcher emailMatcher = emailPattern.matcher(userName);
+
+        if (emailMatcher.matches() && passwordMatcher.matches()) {
+            if (userDataManipulation.isUserExists(userName)) {
+                resp.setStatus(SC_CONFLICT);
+                RequestDispatcher dispatcher = req.getRequestDispatcher("registerForm.jsp");
+                dispatcher.forward(req, resp);
+            } else {
+                User user = new User();
+                user.setUserName(userName);
+                user.setPassword(PasswordAuth.getSaltedHash(password));
+                userDataManipulation.addUser(user);
+
+                RequestDispatcher dispatcher = req.getRequestDispatcher("registerDetails.jsp");
+                dispatcher.forward(req, resp);
+            }
+        } else {
+            resp.setStatus(SC_BAD_REQUEST);
+            RequestDispatcher dispatcher = req.getRequestDispatcher("registerForm.jsp");
+            dispatcher.forward(req, resp);
+        }
     }
 }
