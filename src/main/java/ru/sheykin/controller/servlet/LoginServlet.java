@@ -1,6 +1,8 @@
-package ru.sheykin.servlet;
+package ru.sheykin.controller.servlet;
 
 import ru.sheykin.DAO.*;
+import ru.sheykin.DAO.implementations.DAOFactory;
+import ru.sheykin.DAO.implementations.DAOTypes;
 import ru.sheykin.model.User;
 import ru.sheykin.util.PasswordAuth;
 
@@ -12,6 +14,9 @@ import java.io.IOException;
 
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
+/**
+ * Checks if the user exists, sets the HttpSession and logs in
+ */
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 

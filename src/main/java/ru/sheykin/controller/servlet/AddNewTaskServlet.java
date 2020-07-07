@@ -1,6 +1,8 @@
-package ru.sheykin.servlet;
+package ru.sheykin.controller.servlet;
 
 import ru.sheykin.DAO.*;
+import ru.sheykin.DAO.implementations.DAOFactory;
+import ru.sheykin.DAO.implementations.DAOTypes;
 import ru.sheykin.model.Task;
 import ru.sheykin.model.User;
 
@@ -15,6 +17,9 @@ import java.time.LocalDateTime;
 
 import static javax.servlet.http.HttpServletResponse.*;
 
+/**
+ * Adds new task
+ */
 @WebServlet("/insert")
 public class AddNewTaskServlet extends HttpServlet {
     private UserDataManipulation userDataManipulation;
@@ -32,7 +37,9 @@ public class AddNewTaskServlet extends HttpServlet {
         String name = req.getParameter("name");
         String details = req.getParameter("details");
         LocalDateTime ldt = LocalDateTime.now();
-        Task task = new Task(name, details, userId, ldt);
+        String goal = req.getParameter("goalId");
+        int goalId = Integer.parseInt(goal);
+        Task task = new Task(userId, name, details, userId, ldt, goalId);
         if (taskDataManipulation.addTask(task) == 1) {
             resp.setStatus(SC_CREATED);
             RequestDispatcher dispatcher = req.getRequestDispatcher("list");

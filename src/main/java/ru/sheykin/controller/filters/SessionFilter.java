@@ -1,4 +1,4 @@
-package ru.sheykin.filters;
+package ru.sheykin.controller.filters;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -11,6 +11,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Sets restrictions on service navigation for unauthorized users
+ */
 @WebFilter("/list")
 public class SessionFilter implements Filter {
 

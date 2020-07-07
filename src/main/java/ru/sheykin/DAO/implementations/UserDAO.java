@@ -1,5 +1,8 @@
-package ru.sheykin.DAO;
+package ru.sheykin.DAO.implementations;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.sheykin.DAO.UserDataManipulation;
 import ru.sheykin.model.User;
 import ru.sheykin.util.DataSource;
 
@@ -10,6 +13,7 @@ import java.sql.SQLException;
 
 public class UserDAO implements UserDataManipulation {
 
+    private static final Logger LOG = LoggerFactory.getLogger(UserDAO.class);
     private static final String GET_USER_BY_USERNAME = "SELECT * FROM users WHERE userName = ?;";
     private static final String ADD_USER = "INSERT INTO users (userName, password) VALUES (?, ?);";
     private static final String GET_USER_BY_USERNAME_SQL = "SELECT * FROM users WHERE userName = ?;";
@@ -24,8 +28,10 @@ public class UserDAO implements UserDataManipulation {
             preparedStatement.setString(1, user.getUserName());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.executeUpdate();
+            LOG.debug("addUser : The user has been added, name: {}", user.getUserName());
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            LOG.error("addUser : Failed to add new user: {}", user.getUserName());
+            LOG.error("Exception: ", throwables);
         }
     }
 
@@ -39,8 +45,10 @@ public class UserDAO implements UserDataManipulation {
                 user.setUserName(rs.getString("userName"));
                 user.setPassword(rs.getString("password"));
             }
+            LOG.debug("getUser : The user has been found, userName: {}", userName);
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            LOG.error("getUser : Failed to find the user with name: {}", userName);
+            LOG.error("Exception: ", throwables);
         }
         return user;
     }
@@ -54,8 +62,10 @@ public class UserDAO implements UserDataManipulation {
             while (rs.next()) {
                 userId = rs.getInt("userId");
             }
+            LOG.debug("getUserId : The user has been found, userName: {}", user.getUserName());
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            LOG.error("getUserId : Failed to find the user with name: {}", user.getUserName());
+            LOG.error("Exception: ", throwables);
         }
         return userId;
     }
@@ -72,8 +82,10 @@ public class UserDAO implements UserDataManipulation {
                     flag = true;
                 }
             }
+            LOG.debug("isUserExist : The user has been found, userName: {}", userName);
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            LOG.error("isUserExist : Failed to find the user with name: {}", userName);
+            LOG.error("Exception: ", throwables);
         }
         return flag;
     }

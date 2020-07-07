@@ -1,7 +1,7 @@
-package ru.sheykin.servlet;
+package ru.sheykin.controller.servlet;
 
-import ru.sheykin.DAO.DAOFactory;
-import ru.sheykin.DAO.DAOTypes;
+import ru.sheykin.DAO.implementations.DAOFactory;
+import ru.sheykin.DAO.implementations.DAOTypes;
 import ru.sheykin.DAO.TaskDataManipulation;
 import ru.sheykin.model.Task;
 
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 /**
- * Shows all the tasks for current user
+ * Updates the selected task
  */
 @WebServlet("/update")
 public class UpdateTaskServlet extends HttpServlet {

@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: sheyk
-  Date: 6/19/2020
-  Time: 12:43 AM
+  Date: 7/7/2020
+  Time: 9:22 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -33,38 +33,29 @@
 <div class="container col-md-5">
     <div class="card">
         <div class="card-body">
-            <c:if test="${task != null}">
-            <form action="update" method="post">
-                </c:if>
-                <c:if test="${task == null}">
-                <form action="insert" method="post">
+                <c:if test="${goal == null}">
+                <form action="goal" method="post">
                     </c:if>
 
                     <caption>
                         <h2>
-                            <c:if test="${task == null}">
-                                Add New Task
+                            <c:if test="${goal != null}">
+                                Edit Goal
+                            </c:if>
+                            <c:if test="${goal == null}">
+                                Add New Goal
                             </c:if>
                         </h2>
                     </caption>
 
-                    <c:if test="${task != null}">
-                        <input type="hidden" name="id" value="<c:out value='${task.id}' />"/>
+                    <c:if test="${goal != null}">
+                        <input type="hidden" name="id" value="<c:out value='${goal.id}' />"/>
                     </c:if>
 
                     <fieldset class="form-group">
-                        <label>Task</label> <input type="text" value="<c:out value='${task.name}' />"
+                        <label>Goal</label> <input type="text" value="<c:out value='${goal.name}' />"
                                                    class="form-control" name="name" required="required">
                     </fieldset>
-
-                    <fieldset class="form-group">
-                        <label>Details</label> <input type="text" value="<c:out value='${task.details}' />"
-                                                      class="form-control" name="details">
-                    </fieldset>
-                        <fieldset class="form-group">
-                            <label>Goal ID</label> <input type="number" value="<c:out value='${task.goalId}' />"
-                                                          class="form-control" name="goalId">
-                        </fieldset>
 
                     <button type="submit" class="btn btn-success">Save</button>
                 </form>

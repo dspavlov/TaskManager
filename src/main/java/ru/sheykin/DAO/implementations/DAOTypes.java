@@ -1,4 +1,4 @@
-package ru.sheykin.DAO;
+package ru.sheykin.DAO.implementations;
 
 public enum DAOTypes {
 

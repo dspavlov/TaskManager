@@ -1,9 +1,12 @@
-package ru.sheykin.filters;
+package ru.sheykin.controller.filters;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
+/**
+ * Sets the encoding for URL pattern
+ */
 @WebFilter("/*")
 public class EncodingFilter implements Filter {
     @Override

@@ -1,7 +1,7 @@
-package ru.sheykin.servlet;
+package ru.sheykin.controller.servlet;
 
-import ru.sheykin.DAO.DAOFactory;
-import ru.sheykin.DAO.DAOTypes;
+import ru.sheykin.DAO.implementations.DAOFactory;
+import ru.sheykin.DAO.implementations.DAOTypes;
 import ru.sheykin.DAO.UserDataManipulation;
 import ru.sheykin.model.User;
 import ru.sheykin.util.PasswordAuth;
@@ -18,6 +18,9 @@ import java.util.regex.Pattern;
 
 import static javax.servlet.http.HttpServletResponse.*;
 
+/**
+ * Provides registration, e-mail and password validation
+ */
 @WebServlet("/register")
 public class RegistrationServlet extends HttpServlet {
 

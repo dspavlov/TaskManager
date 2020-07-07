@@ -1,6 +1,8 @@
-package ru.sheykin.servlet;
+package ru.sheykin.controller.servlet;
 
 import ru.sheykin.DAO.*;
+import ru.sheykin.DAO.implementations.DAOFactory;
+import ru.sheykin.DAO.implementations.DAOTypes;
 import ru.sheykin.model.Task;
 import ru.sheykin.model.User;
 
@@ -32,9 +34,7 @@ public class ShowTasksListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int userId = userDataManipulation.getUserId((User) (req.getSession().getAttribute("userName")));
-        Task task = new Task();
-        task.setUserId(userId);
-        List<Task> taskList = taskDataManipulation.selectAllTasks(task);
+        List<Task> taskList = taskDataManipulation.selectAllTasks(userId);
         req.setAttribute("taskList", taskList);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("taskList.jsp");

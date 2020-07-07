@@ -1,4 +1,4 @@
-package ru.sheykin.servlet;
+package ru.sheykin.controller.servlet;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Ends the HttpSession, logs out
+ */
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
 

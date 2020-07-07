@@ -1,9 +1,8 @@
-package ru.sheykin.servlet;
+package ru.sheykin.controller.servlet;
 
-import ru.sheykin.DAO.DAOFactory;
-import ru.sheykin.DAO.DAOTypes;
+import ru.sheykin.DAO.implementations.DAOFactory;
+import ru.sheykin.DAO.implementations.DAOTypes;
 import ru.sheykin.DAO.TaskDataManipulation;
-import ru.sheykin.model.Task;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,12 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- *
- */
+import static javax.servlet.http.HttpServletResponse.*;
 
-@WebServlet("/edit")
-public class ShowEditTaskFormServlet extends HttpServlet {
+/**
+ * Deletes selected task
+ */
+@WebServlet("/delete")
+public class DeleteTaskServlet extends HttpServlet {
 
     private TaskDataManipulation taskDataManipulation;
 
@@ -29,10 +29,16 @@ public class ShowEditTaskFormServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doDelete(req, resp);
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
-        Task task = taskDataManipulation.selectTask(id);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("taskForm.jsp");
-        req.setAttribute("task", task);
-        dispatcher.forward(req, resp);
+        if (taskDataManipulation.deleteTask(id) == 1) {
+            RequestDispatcher dispatcher = req.getRequestDispatcher("list");
+            dispatcher.forward(req, resp);
+        } else
+            resp.setStatus(SC_NO_CONTENT);
     }
 }

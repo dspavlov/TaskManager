@@ -42,10 +42,16 @@
                 New Task</a>
         </div>
         <br>
+        <div class="container text-left">
+            <a href="<%=request.getContextPath()%>goal" class="btn btn-success">Add
+                New Goal</a>
+        </div>
+        <br>
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th>ID</th>
+                <th>Goal ID</th>
+                <th>Task ID</th>
                 <th>Name</th>
                 <th>Details</th>
                 <th>Time</th>
@@ -57,6 +63,9 @@
             <c:forEach var="task" items="${taskList}">
 
                 <tr>
+                    <td>
+                        <c:out value="${task.goalId}"/>
+                    </td>
                     <td>
                         <c:out value="${task.id}"/>
                     </td>
@@ -72,7 +81,6 @@
                     <td>
                         <a href="edit?id=<c:out value='${task.id}' />">Edit</a>
                         <a href="delete?id=<c:out value='${task.id}' />">Delete</a>
-                        <a href="setGoal?id=<c:out value='${task.id}' />">Set Goal</a>
                     </td>
                 </tr>
             </c:forEach>

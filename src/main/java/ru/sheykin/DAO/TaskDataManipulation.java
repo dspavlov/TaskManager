@@ -12,7 +12,7 @@ public interface TaskDataManipulation {
 
     Task selectTask(int id);
 
-    List<Task> selectAllTasks(Task task);
+    List<Task> selectAllTasks(int userId);
 
     int deleteTask(int id);
 }
