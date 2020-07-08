@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface GoalDataManipulation {
 
-    Goal getGoal(int id);
+    Goal get(int id);
 
-    int addGoal(Goal goal);
+    int add(Goal goal);
 
-    List<Goal> selectAllGoals(int userId);
+    List<Goal> getAll(int userId);
 }

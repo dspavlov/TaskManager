@@ -21,8 +21,8 @@ public class UserDAO implements UserDataManipulation {
     UserDAO() {
     }
 
-    public void addUser(User user) {
-
+    public int add(User user) {
+        int status = 0;
         try (Connection connection = ru.sheykin.util.DataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(ADD_USER);
             preparedStatement.setString(1, user.getUserName());
@@ -33,15 +33,17 @@ public class UserDAO implements UserDataManipulation {
             LOG.error("addUser : Failed to add new user: {}", user.getUserName());
             LOG.error("Exception: ", throwables);
         }
+        return status;
     }
 
-    public User getUser(String userName) {
+    public User get(String userName) {
         User user = new User();
         try (Connection connection = DataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_USERNAME_SQL);
             preparedStatement.setString(1, userName);
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
+                user.setUserId(rs.getInt("userId"));
                 user.setUserName(rs.getString("userName"));
                 user.setPassword(rs.getString("password"));
             }
@@ -51,23 +53,6 @@ public class UserDAO implements UserDataManipulation {
             LOG.error("Exception: ", throwables);
         }
         return user;
-    }
-
-    public int getUserId(User user) {
-        int userId = 0;
-        try (Connection connection = DataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_USERNAME)) {
-            preparedStatement.setString(1, user.getUserName());
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                userId = rs.getInt("userId");
-            }
-            LOG.debug("getUserId : The user has been found, userName: {}", user.getUserName());
-        } catch (SQLException throwables) {
-            LOG.error("getUserId : Failed to find the user with name: {}", user.getUserName());
-            LOG.error("Exception: ", throwables);
-        }
-        return userId;
     }
 
     public boolean isUserExists(String userName) {

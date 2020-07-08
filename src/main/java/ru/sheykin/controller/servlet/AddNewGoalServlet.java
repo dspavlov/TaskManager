@@ -32,11 +32,11 @@ public class AddNewGoalServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int userId = userDataManipulation.getUserId((User) (req.getSession().getAttribute("userName")));
+        User user = (User) (req.getSession().getAttribute("userName"));
+        int userId = userDataManipulation.get(user.getUserName()).getUserId();
         String name = req.getParameter("name");
-        System.out.println(name+ "****************************************");
         Goal goal = new Goal(name, userId);
-        goalDataManipulation.addGoal(goal);
+        goalDataManipulation.add(goal);
         RequestDispatcher dispatcher = req.getRequestDispatcher("goals");
         dispatcher.forward(req, resp);
     }

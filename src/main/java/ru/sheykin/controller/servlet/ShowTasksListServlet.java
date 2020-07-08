@@ -33,7 +33,8 @@ public class ShowTasksListServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int userId = userDataManipulation.getUserId((User) (req.getSession().getAttribute("userName")));
+        User user = (User) (req.getSession().getAttribute("userName"));
+        int userId = userDataManipulation.get(user.getUserName()).getUserId();
         List<Task> taskList = taskDataManipulation.selectAllTasks(userId);
         req.setAttribute("taskList", taskList);
 

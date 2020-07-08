@@ -30,8 +30,9 @@ public class ShowGoalsListServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int userId = userDataManipulation.getUserId((User) (req.getSession().getAttribute("userName")));
-        List<Goal> goalList = goalDataManipulation.selectAllGoals(userId);
+        User user = (User) (req.getSession().getAttribute("userName"));
+        int userId = userDataManipulation.get(user.getUserName()).getUserId();
+        List<Goal> goalList = goalDataManipulation.getAll(userId);
         req.setAttribute("taskList", goalList);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("goalList.jsp");

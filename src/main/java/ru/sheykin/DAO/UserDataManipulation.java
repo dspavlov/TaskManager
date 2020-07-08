@@ -4,11 +4,9 @@ import ru.sheykin.model.User;
 
 public interface UserDataManipulation {
 
-    int getUserId(User user);
+    int add(User user);
 
-    User getUser(String userName);
-
-    void addUser(User user);
+    User get(String userName);
 
     boolean isUserExists(String userName);
 }

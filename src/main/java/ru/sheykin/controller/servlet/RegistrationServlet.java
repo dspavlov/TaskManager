@@ -61,7 +61,7 @@ public class RegistrationServlet extends HttpServlet {
                 User user = new User();
                 user.setUserName(userName);
                 user.setPassword(PasswordAuth.getSaltedHash(password));
-                userDataManipulation.addUser(user);
+                userDataManipulation.add(user);
 
                 RequestDispatcher dispatcher = req.getRequestDispatcher("registerDetails.jsp");
                 dispatcher.forward(req, resp);
