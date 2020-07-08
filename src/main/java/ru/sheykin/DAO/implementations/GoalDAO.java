@@ -33,7 +33,7 @@ public class GoalDAO implements GoalDataManipulation {
                 goal = new Goal(id, goalName);
             }
             if (goal != null) {
-                LOG.debug("getGoal : The goal has been selected: {}", goal.getGoalName());
+                LOG.debug("getGoal : The goal has been selected: {}", goal.getName());
             }
         } catch (SQLException throwables) {
             LOG.error("Failed to add new goal");
@@ -47,12 +47,12 @@ public class GoalDAO implements GoalDataManipulation {
         int status = 0;
         try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_GOAL)) {
-            preparedStatement.setString(1, goal.getGoalName());
+            preparedStatement.setString(1, goal.getName());
             preparedStatement.setInt(2, goal.getUserId());
             status = preparedStatement.executeUpdate();
-            LOG.debug("addGoal : The goal has been added, name: {}", goal.getGoalName());
+            LOG.debug("addGoal : The goal has been added, name: {}", goal.getName());
         } catch (SQLException throwables) {
-            LOG.error("addGoal : Failed to add new task: {}", goal.getGoalName());
+            LOG.error("addGoal : Failed to add new task: {}", goal.getName());
             LOG.error("Exception: ", throwables);
         }
         return status;

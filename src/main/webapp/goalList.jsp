@@ -54,10 +54,10 @@
 
                 <tr>
                     <td>
-                        <c:out value="${goal.id}"/>
+                        <c:out value="${goal.goalId}"/>
                     </td>
                     <td>
-                        <c:out value="${goal.name}"/>
+                        <c:out value="${goal.goalName}"/>
                     </td>
                     <td>
                         <a href="edit?id=<c:out value='${goal.id}' />">Edit</a>

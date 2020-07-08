@@ -37,4 +37,9 @@ public class ShowGoalsListServlet extends HttpServlet {
         RequestDispatcher dispatcher = req.getRequestDispatcher("goalList.jsp");
         dispatcher.forward(req, resp);
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);
+    }
 }

@@ -20,7 +20,7 @@ public class Goal {
         return id;
     }
 
-    public String getGoalName() {
+    public String getName() {
         return goalName;
     }
 
@@ -28,7 +28,7 @@ public class Goal {
         return userId;
     }
 
-    public void setGoalName(String goalName) {
+    public void setName(String goalName) {
         this.goalName = goalName;
     }
 
