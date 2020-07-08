@@ -14,15 +14,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
-import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
-import static javax.servlet.http.HttpServletResponse.SC_CREATED;
-
-/**
- * Adds new goal
- */
-@WebServlet("/newGoal")
-public class AddNewGoalServlet extends HttpServlet {
+@WebServlet("/goals")
+public class ShowGoalsListServlet extends HttpServlet {
 
     private UserDataManipulation userDataManipulation;
     private GoalDataManipulation goalDataManipulation;
@@ -35,22 +30,11 @@ public class AddNewGoalServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("goalForm.jsp");
+        int userId = userDataManipulation.getUserId((User) (req.getSession().getAttribute("userName")));
+        List<Goal> goalList = goalDataManipulation.selectAllGoals(userId);
+        req.setAttribute("taskList", goalList);
+
+        RequestDispatcher dispatcher = req.getRequestDispatcher("goalList.jsp");
         dispatcher.forward(req, resp);
     }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int userId = userDataManipulation.getUserId((User) (req.getSession().getAttribute("userName")));
-        String name = req.getParameter("name");
-        Goal goal = new Goal(name, userId);
-        if (goalDataManipulation.addGoal(goal) == 1) {
-            resp.setStatus(SC_CREATED);
-            RequestDispatcher dispatcher = req.getRequestDispatcher("list");
-            dispatcher.forward(req, resp);
-        } else
-            resp.setStatus(SC_BAD_REQUEST);
-    }
-
-
 }

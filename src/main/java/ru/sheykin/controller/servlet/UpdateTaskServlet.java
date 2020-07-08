@@ -29,11 +29,15 @@ public class UpdateTaskServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
+        int userId = Integer.parseInt(req.getParameter("id"));
         String name = req.getParameter("name");
         String details = req.getParameter("details");
         LocalDateTime ldt = LocalDateTime.now();
-        Task task = new Task(id, name, details, ldt);
+        String goal = req.getParameter("goalId");
+        int goalId = 0;
+        if(!goal.isEmpty())
+            goalId = Integer.parseInt(goal);
+        Task task = new Task(userId, name, details, userId, ldt, goalId);
         taskDataManipulation.updateTask(task);
         RequestDispatcher dispatcher = req.getRequestDispatcher("list");
         dispatcher.forward(req, resp);

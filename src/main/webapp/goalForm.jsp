@@ -34,7 +34,7 @@
     <div class="card">
         <div class="card-body">
                 <c:if test="${goal == null}">
-                <form action="goal" method="post">
+                <form action="newGoal" method="post">
                     </c:if>
 
                     <caption>

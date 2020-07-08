@@ -70,7 +70,8 @@ public class TaskDAO implements TaskDataManipulation {
                 String name = rs.getString("name");
                 String details = rs.getString("details");
                 LocalDateTime date = rs.getTimestamp("date").toLocalDateTime();
-                task = new Task(id, name, details, date);
+                int goalId = rs.getInt("goalId");
+                task = new Task(id, name, details, date, goalId);
             }
             LOG.debug("selectTask : The task has been selected, id: {}", id);
         } catch (SQLException throwables) {
@@ -92,7 +93,8 @@ public class TaskDAO implements TaskDataManipulation {
                 String name = rs.getString("name");
                 String details = rs.getString("details");
                 LocalDateTime date = rs.getTimestamp("date").toLocalDateTime();
-                tasks.add(new Task(id, name, details, date));
+                int goalId = rs.getInt("goalId");
+                tasks.add(new Task(id, name, details, date, goalId));
             }
             LOG.debug("selectAllTasks : All the tasks have been selected for user id: {}", userId);
         } catch (SQLException throwables) {
@@ -108,7 +110,7 @@ public class TaskDAO implements TaskDataManipulation {
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE_TASK_BY_ID)) {
             preparedStatement.setInt(1, id);
             status = preparedStatement.executeUpdate();
-            LOG.debug("deleteTask : Task deleted: {}", id);
+            LOG.debug("deleteTask : Task deleted, id: {}", id);
         } catch (SQLException throwables) {
             LOG.error("deleteTask : Failed to delete the task with id: {}", id);
             LOG.error("Exception: ", throwables);

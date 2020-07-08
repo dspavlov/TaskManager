@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: sheyk
-  Date: 6/19/2020
-  Time: 12:58 AM
+  Date: 7/8/2020
+  Time: 12:43 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -25,7 +25,7 @@
         </div>
 
         <ul class="navbar-nav">
-            <li><a href="<%=request.getContextPath()%>/goals" class="nav-link">Goals</a></li>
+            <li><a href="<%=request.getContextPath()%>/list" class="nav-link">Tasks</a></li>
         </ul>
     </nav>
 </header>
@@ -34,48 +34,34 @@
 <div class="row">
 
     <div class="container">
-        <h3 class="text-center">List of Tasks</h3>
+        <h3 class="text-center">List of Goals</h3>
         <hr>
         <div class="container text-left">
-
-            <a href="<%=request.getContextPath()%>new" class="btn btn-success">Add
-                New Task</a>
+            <a href="<%=request.getContextPath()%>newGoal" class="btn btn-success">Add
+                New Goal</a>
         </div>
         <br>
         <table class="table table-bordered">
             <thead>
             <tr>
                 <th>Goal ID</th>
-                <th>Task ID</th>
                 <th>Name</th>
-                <th>Details</th>
-                <th>Time</th>
-                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
 
-            <c:forEach var="task" items="${taskList}">
+            <c:forEach var="goal" items="${goalList}">
 
                 <tr>
                     <td>
-                        <c:out value="${task.goalId}"/>
+                        <c:out value="${goal.id}"/>
                     </td>
                     <td>
-                        <c:out value="${task.id}"/>
+                        <c:out value="${goal.name}"/>
                     </td>
                     <td>
-                        <c:out value="${task.name}"/>
-                    </td>
-                    <td>
-                        <c:out value="${task.details}"/>
-                    </td>
-                    <td>
-                        <c:out value="${task.date}"/>
-                    </td>
-                    <td>
-                        <a href="edit?id=<c:out value='${task.id}' />">Edit</a>
-                        <a href="delete?id=<c:out value='${task.id}' />">Delete</a>
+                        <a href="edit?id=<c:out value='${goal.id}' />">Edit</a>
+                        <a href="delete?id=<c:out value='${goal.id}' />">Delete</a>
                     </td>
                 </tr>
             </c:forEach>

@@ -20,11 +20,12 @@ public class Task {
         this.goalId = goalId;
     }
 
-    public Task(int id, String name, String details, LocalDateTime date) {
+    public Task(int id, String name, String details, LocalDateTime date, int goalId) {
         this.id = id;
         this.name = name;
         this.details = details;
         this.date = date;
+        this.goalId = goalId;
     }
 
     public Task() {

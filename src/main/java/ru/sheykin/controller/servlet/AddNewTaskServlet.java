@@ -38,7 +38,9 @@ public class AddNewTaskServlet extends HttpServlet {
         String details = req.getParameter("details");
         LocalDateTime ldt = LocalDateTime.now();
         String goal = req.getParameter("goalId");
-        int goalId = Integer.parseInt(goal);
+        int goalId = 0;
+        if(!goal.isEmpty())
+            goalId = Integer.parseInt(goal);
         Task task = new Task(userId, name, details, userId, ldt, goalId);
         if (taskDataManipulation.addTask(task) == 1) {
             resp.setStatus(SC_CREATED);
