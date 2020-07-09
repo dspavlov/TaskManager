@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface TaskDataManipulation {
 
-    int addTask(Task task);
+    int add(Task task);
 
-    int updateTask(Task task);
+    int update(Task task);
 
-    Task selectTask(int id);
+    Task get(int id);
 
-    List<Task> selectAllTasks(int userId);
+    List<Task> getAll(int userId);
 
-    int deleteTask(int id);
+    int delete(int id);
 }

@@ -29,7 +29,7 @@ public class ShowEditTaskFormServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
-        Task task = taskDataManipulation.selectTask(id);
+        Task task = taskDataManipulation.get(id);
         RequestDispatcher dispatcher = req.getRequestDispatcher("taskForm.jsp");
         req.setAttribute("task", task);
         dispatcher.forward(req, resp);

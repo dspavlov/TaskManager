@@ -8,5 +8,5 @@ public interface UserDataManipulation {
 
     User get(String userName);
 
-    boolean isUserExists(String userName);
+    boolean isExist(String userName);
 }

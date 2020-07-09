@@ -23,7 +23,7 @@ public class TaskDAO implements TaskDataManipulation {
     TaskDAO() {
     }
 
-    public int addTask(Task task) {
+    public int add(Task task) {
         int status = 0;
         try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TASK)) {
@@ -41,7 +41,7 @@ public class TaskDAO implements TaskDataManipulation {
         return status;
     }
 
-    public int updateTask(Task task) {
+    public int update(Task task) {
         int status = 0;
         try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_TASK_BY_ID)) {
@@ -59,7 +59,7 @@ public class TaskDAO implements TaskDataManipulation {
         return status;
     }
 
-    public Task selectTask(int id) {
+    public Task get(int id) {
         Task task = null;
 
         try (Connection connection = DataSource.getConnection();
@@ -81,7 +81,7 @@ public class TaskDAO implements TaskDataManipulation {
         return task;
     }
 
-    public List<Task> selectAllTasks(int userId) {
+    public List<Task> getAll(int userId) {
         List<Task> tasks = new ArrayList<>();
 
         try (Connection connection = DataSource.getConnection();
@@ -104,7 +104,7 @@ public class TaskDAO implements TaskDataManipulation {
         return tasks;
     }
 
-    public int deleteTask(int id) {
+    public int delete(int id) {
         int status = 0;
         try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE_TASK_BY_ID)) {

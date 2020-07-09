@@ -35,7 +35,7 @@ public class DeleteTaskServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
-        if (taskDataManipulation.deleteTask(id) == 1) {
+        if (taskDataManipulation.delete(id) == 1) {
             RequestDispatcher dispatcher = req.getRequestDispatcher("list");
             dispatcher.forward(req, resp);
         } else

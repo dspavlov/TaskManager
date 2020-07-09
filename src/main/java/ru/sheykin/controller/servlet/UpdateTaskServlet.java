@@ -38,7 +38,7 @@ public class UpdateTaskServlet extends HttpServlet {
         if(!goal.isEmpty())
             goalId = Integer.parseInt(goal);
         Task task = new Task(userId, name, details, userId, ldt, goalId);
-        taskDataManipulation.updateTask(task);
+        taskDataManipulation.update(task);
         RequestDispatcher dispatcher = req.getRequestDispatcher("list");
         dispatcher.forward(req, resp);
     }

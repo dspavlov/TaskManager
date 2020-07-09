@@ -43,7 +43,7 @@ public class AddNewTaskServlet extends HttpServlet {
         if(!goal.isEmpty())
             goalId = Integer.parseInt(goal);
         Task task = new Task(userId, name, details, userId, ldt, goalId);
-        if (taskDataManipulation.addTask(task) == 1) {
+        if (taskDataManipulation.add(task) == 1) {
             resp.setStatus(SC_CREATED);
             RequestDispatcher dispatcher = req.getRequestDispatcher("list");
             dispatcher.forward(req, resp);

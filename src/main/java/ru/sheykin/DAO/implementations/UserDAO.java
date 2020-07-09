@@ -55,7 +55,7 @@ public class UserDAO implements UserDataManipulation {
         return user;
     }
 
-    public boolean isUserExists(String userName) {
+    public boolean isExist(String userName) {
         boolean flag = false;
         try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_USERNAME)) {

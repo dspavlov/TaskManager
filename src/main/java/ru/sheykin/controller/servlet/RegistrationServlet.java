@@ -53,7 +53,7 @@ public class RegistrationServlet extends HttpServlet {
         Matcher emailMatcher = emailPattern.matcher(userName);
 
         if (emailMatcher.matches() && passwordMatcher.matches()) {
-            if (userDataManipulation.isUserExists(userName)) {
+            if (userDataManipulation.isExist(userName)) {
                 resp.setStatus(SC_CONFLICT);
                 RequestDispatcher dispatcher = req.getRequestDispatcher("registerForm.jsp");
                 dispatcher.forward(req, resp);

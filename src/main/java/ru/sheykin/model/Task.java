@@ -59,15 +59,7 @@ public class Task {
         this.name = name;
     }
 
-    public void setDetails(String details) {
-        this.details = details;
-    }
-
     public void setUserId(int userId) {
         this.userId = userId;
-    }
-
-    public void setGoalId(int goalId) {
-        this.goalId = goalId;
     }
 }

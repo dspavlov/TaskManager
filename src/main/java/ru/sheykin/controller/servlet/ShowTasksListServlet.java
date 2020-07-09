@@ -35,7 +35,7 @@ public class ShowTasksListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) (req.getSession().getAttribute("userName"));
         int userId = userDataManipulation.get(user.getUserName()).getUserId();
-        List<Task> taskList = taskDataManipulation.selectAllTasks(userId);
+        List<Task> taskList = taskDataManipulation.getAll(userId);
         req.setAttribute("taskList", taskList);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("taskList.jsp");
