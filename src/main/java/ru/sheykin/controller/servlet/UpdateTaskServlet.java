@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @WebServlet("/update")
 public class UpdateTaskServlet extends HttpServlet {
 
-    private TaskDao taskDao;
+    private TaskDao<Task> taskDao;
 
     @Override
     public void init() throws ServletException {

@@ -24,7 +24,7 @@ import static javax.servlet.http.HttpServletResponse.*;
 @WebServlet("/register")
 public class RegistrationServlet extends HttpServlet {
 
-    private UserDao userDao;
+    private UserDao<User> userDao;
 
     @Override
     public void init() throws ServletException {
@@ -39,19 +39,10 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+!=])(?=\\S+$).{8,}$";
-
         String userName = req.getParameter("userName");
         String password = req.getParameter("password");
 
-        Pattern passwordPattern = Pattern.compile(passwordRegex);
-        Matcher passwordMatcher = passwordPattern.matcher(password);
-
-        Pattern emailPattern = Pattern.compile(emailRegex);
-        Matcher emailMatcher = emailPattern.matcher(userName);
-
-        if (emailMatcher.matches() && passwordMatcher.matches()) {
+        if (verify(userName, password)) {
             if (userDao.isExist(userName)) {
                 resp.setStatus(SC_CONFLICT);
                 RequestDispatcher dispatcher = req.getRequestDispatcher("registerForm.jsp");
@@ -70,5 +61,18 @@ public class RegistrationServlet extends HttpServlet {
             RequestDispatcher dispatcher = req.getRequestDispatcher("registerForm.jsp");
             dispatcher.forward(req, resp);
         }
+    }
+
+    private boolean verify(String name, String password) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+!=])(?=\\S+$).{8,}$";
+
+        Pattern passwordPattern = Pattern.compile(passwordRegex);
+        Matcher passwordMatcher = passwordPattern.matcher(password);
+
+        Pattern emailPattern = Pattern.compile(emailRegex);
+        Matcher emailMatcher = emailPattern.matcher(name);
+
+        return passwordMatcher.matches() && emailMatcher.matches();
     }
 }

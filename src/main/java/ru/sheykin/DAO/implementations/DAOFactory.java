@@ -7,7 +7,7 @@ import ru.sheykin.DAO.UserDao;
 import java.util.EnumMap;
 
 /**
- * Factory class that allows you to get the instance of a necessary class
+ * Factory class that allows to get the instance of a necessary class
  */
 
 public class DAOFactory {

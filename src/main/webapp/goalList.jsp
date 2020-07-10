@@ -60,8 +60,7 @@
                         <c:out value="${goal.goalName}"/>
                     </td>
                     <td>
-                        <a href="edit?id=<c:out value='${goal.id}' />">Edit</a>
-                        <a href="delete?id=<c:out value='${goal.id}' />">Delete</a>
+                        <a href="deleteGoal?id=<c:out value='${goal.id}' />">Delete</a>
                     </td>
                 </tr>
             </c:forEach>

@@ -1,9 +1,11 @@
 package ru.sheykin.controller.servlet;
 
+import ru.sheykin.DAO.GoalDao;
+import ru.sheykin.DAO.UserDao;
 import ru.sheykin.DAO.implementations.DAOFactory;
 import ru.sheykin.DAO.implementations.DAOTypes;
-import ru.sheykin.DAO.TaskDao;
-import ru.sheykin.model.Task;
+import ru.sheykin.model.Goal;
+import ru.sheykin.model.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,19 +15,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static javax.servlet.http.HttpServletResponse.*;
+import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
 
-/**
- * Deletes selected task
- */
-@WebServlet("/delete")
-public class DeleteTaskServlet extends HttpServlet {
+@WebServlet("/deleteGoal")
+public class DeleteGoalServlet extends HttpServlet {
 
-    private TaskDao<Task> taskDao;
+    private GoalDao<Goal> goalDao;
 
     @Override
     public void init() throws ServletException {
-        taskDao = DAOFactory.getDaoFactory().getTaskDataManipulationInstance(DAOTypes.SQL);
+        goalDao = DAOFactory.getDaoFactory().getGoalDataManipulationInstance(DAOTypes.SQL);
     }
 
     @Override
@@ -36,8 +35,8 @@ public class DeleteTaskServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
-        if (taskDao.delete(id) == 1) {
-            RequestDispatcher dispatcher = req.getRequestDispatcher("list");
+        if (goalDao.delete(id) == 1) {
+            RequestDispatcher dispatcher = req.getRequestDispatcher("goals");
             dispatcher.forward(req, resp);
         } else
             resp.setStatus(SC_NO_CONTENT);
