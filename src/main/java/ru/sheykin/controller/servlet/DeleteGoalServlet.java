@@ -19,11 +19,12 @@ import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
 
 @WebServlet("/deleteGoal")
 public class DeleteGoalServlet extends HttpServlet {
-
+    //todo
     private GoalDao<Goal> goalDao;
 
     @Override
     public void init() throws ServletException {
+        //todo see similar comments
         goalDao = DAOFactory.getDaoFactory().getGoalDataManipulationInstance(DAOTypes.SQL);
     }
 

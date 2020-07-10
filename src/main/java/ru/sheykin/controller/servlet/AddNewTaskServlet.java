@@ -25,6 +25,7 @@ public class AddNewTaskServlet extends HttpServlet {
     private UserDao<User> userDao;
     private TaskDao<Task> taskDao;
 
+    //todo see similar comments
     @Override
     public void init() throws ServletException {
         taskDao = DAOFactory.getDaoFactory().getTaskDataManipulationInstance(DAOTypes.SQL);
@@ -34,7 +35,7 @@ public class AddNewTaskServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) (req.getSession().getAttribute("userName"));
-        int userId = userDao.get(user.getUserName()).get().getUserId();
+        int userId = userDao.get(user.getUserName()).get().getUserId(); //todo optional usage
         String name = req.getParameter("name");
         String details = req.getParameter("details");
         LocalDateTime ldt = LocalDateTime.now();

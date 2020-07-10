@@ -8,6 +8,7 @@ import java.io.IOException;
  * Sets the encoding for URL pattern
  */
 @WebFilter("/*")
+//todo is it practically needed?
 public class EncodingFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

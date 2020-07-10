@@ -26,6 +26,8 @@ public class AddNewGoalServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
+        //todo declared exception never thrown
+        // todo generics can be used in calling method
         userDao = DAOFactory.getDaoFactory().getUserDataManipulationInstance(DAOTypes.SQL);
         goalDao = DAOFactory.getDaoFactory().getGoalDataManipulationInstance(DAOTypes.SQL);
     }
@@ -33,6 +35,7 @@ public class AddNewGoalServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) (req.getSession().getAttribute("userName"));
+        //todo get without isPresent check
         int userId = userDao.get(user.getUserName()).get().getUserId();
         String name = req.getParameter("name");
         Goal goal = new Goal(name, userId);
@@ -40,6 +43,7 @@ public class AddNewGoalServlet extends HttpServlet {
         RequestDispatcher dispatcher = req.getRequestDispatcher("goals");
         dispatcher.forward(req, resp);
     }
+    ///todo odd empty lines at the end of file
 
 
 }

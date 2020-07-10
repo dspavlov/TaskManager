@@ -16,10 +16,11 @@ import java.util.Set;
  */
 @WebFilter("/list")
 public class SessionFilter implements Filter {
-
+    //todo space before 1st declaration is a little bit uncommon for coding style, remove?
     private static final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(new HashSet<>(
             Arrays.asList("", "/login", "/register")));
 
+    //todo declared exception never thrown
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 

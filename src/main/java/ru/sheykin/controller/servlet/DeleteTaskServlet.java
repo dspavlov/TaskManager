@@ -24,7 +24,8 @@ public class DeleteTaskServlet extends HttpServlet {
     private TaskDao<Task> taskDao;
 
     @Override
-    public void init() throws ServletException {
+    public void init() throws ServletException { //todo
+        //todo
         taskDao = DAOFactory.getDaoFactory().getTaskDataManipulationInstance(DAOTypes.SQL);
     }
 

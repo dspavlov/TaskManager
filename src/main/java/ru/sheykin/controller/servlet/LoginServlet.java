@@ -45,6 +45,7 @@ public class LoginServlet extends HttpServlet {
                 && PasswordAuth.check(currentUserPassword, userPasswordFromDB)) {
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("userName", user);
+            // todo session attribute code may worth to be extracted as some common constant
 
             RequestDispatcher dispatcher = req.getRequestDispatcher("loginSuccess.jsp");
             dispatcher.forward(req, resp);
