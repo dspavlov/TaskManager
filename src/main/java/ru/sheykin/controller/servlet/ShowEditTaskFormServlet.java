@@ -2,7 +2,7 @@ package ru.sheykin.controller.servlet;
 
 import ru.sheykin.DAO.implementations.DAOFactory;
 import ru.sheykin.DAO.implementations.DAOTypes;
-import ru.sheykin.DAO.TaskDataManipulation;
+import ru.sheykin.DAO.TaskDao;
 import ru.sheykin.model.Task;
 
 import javax.servlet.RequestDispatcher;
@@ -19,17 +19,17 @@ import java.io.IOException;
 @WebServlet("/edit")
 public class ShowEditTaskFormServlet extends HttpServlet {
 
-    private TaskDataManipulation taskDataManipulation;
+    private TaskDao<Task> taskDao;
 
     @Override
     public void init() throws ServletException {
-        taskDataManipulation = DAOFactory.getDaoFactory().getTaskDataManipulationInstance(DAOTypes.SQL);
+        taskDao = DAOFactory.getDaoFactory().getTaskDataManipulationInstance(DAOTypes.SQL);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
-        Task task = taskDataManipulation.get(id);
+        Task task = taskDao.get(id).get();
         RequestDispatcher dispatcher = req.getRequestDispatcher("taskForm.jsp");
         req.setAttribute("task", task);
         dispatcher.forward(req, resp);

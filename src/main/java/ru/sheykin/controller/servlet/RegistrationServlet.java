@@ -2,7 +2,7 @@ package ru.sheykin.controller.servlet;
 
 import ru.sheykin.DAO.implementations.DAOFactory;
 import ru.sheykin.DAO.implementations.DAOTypes;
-import ru.sheykin.DAO.UserDataManipulation;
+import ru.sheykin.DAO.UserDao;
 import ru.sheykin.model.User;
 import ru.sheykin.util.PasswordAuth;
 
@@ -24,16 +24,15 @@ import static javax.servlet.http.HttpServletResponse.*;
 @WebServlet("/register")
 public class RegistrationServlet extends HttpServlet {
 
-    private UserDataManipulation userDataManipulation;
+    private UserDao userDao;
 
     @Override
     public void init() throws ServletException {
-        userDataManipulation = DAOFactory.getDaoFactory().getUserDataManipulationInstance((DAOTypes.SQL));
+        userDao = DAOFactory.getDaoFactory().getUserDataManipulationInstance((DAOTypes.SQL));
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         RequestDispatcher dispatcher = req.getRequestDispatcher("registerForm.jsp");
         dispatcher.forward(req, resp);
     }
@@ -53,7 +52,7 @@ public class RegistrationServlet extends HttpServlet {
         Matcher emailMatcher = emailPattern.matcher(userName);
 
         if (emailMatcher.matches() && passwordMatcher.matches()) {
-            if (userDataManipulation.isExist(userName)) {
+            if (userDao.isExist(userName)) {
                 resp.setStatus(SC_CONFLICT);
                 RequestDispatcher dispatcher = req.getRequestDispatcher("registerForm.jsp");
                 dispatcher.forward(req, resp);
@@ -61,7 +60,7 @@ public class RegistrationServlet extends HttpServlet {
                 User user = new User();
                 user.setUserName(userName);
                 user.setPassword(PasswordAuth.getSaltedHash(password));
-                userDataManipulation.add(user);
+                userDao.add(user);
 
                 RequestDispatcher dispatcher = req.getRequestDispatcher("registerDetails.jsp");
                 dispatcher.forward(req, resp);

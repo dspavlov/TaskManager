@@ -1,8 +1,8 @@
 package ru.sheykin.DAO.implementations;
 
-import ru.sheykin.DAO.GoalDataManipulation;
-import ru.sheykin.DAO.TaskDataManipulation;
-import ru.sheykin.DAO.UserDataManipulation;
+import ru.sheykin.DAO.GoalDao;
+import ru.sheykin.DAO.TaskDao;
+import ru.sheykin.DAO.UserDao;
 
 import java.util.EnumMap;
 
@@ -13,35 +13,35 @@ import java.util.EnumMap;
 public class DAOFactory {
 
     private static final DAOFactory daoFactory = new DAOFactory();
-    private EnumMap<DAOTypes, TaskDataManipulation> cachedDaoTypesTaskData;
-    private EnumMap<DAOTypes, UserDataManipulation> cachedDaoTypesUserData;
-    private EnumMap<DAOTypes, GoalDataManipulation> cachedDaoTypesGoalData;
+    private EnumMap<DAOTypes, TaskDao> cachedDaoTypesTaskData;
+    private EnumMap<DAOTypes, UserDao> cachedDaoTypesUserData;
+    private EnumMap<DAOTypes, GoalDao> cachedDaoTypesGoalData;
 
     private DAOFactory() {
         cachedDaoTypesTaskData = new EnumMap(DAOTypes.class);
-        cachedDaoTypesTaskData.put(DAOTypes.SQL, new TaskDAO());
-        cachedDaoTypesTaskData.put(DAOTypes.NOSQL, new TaskDAO());
+        cachedDaoTypesTaskData.put(DAOTypes.SQL, new TaskRepo());
+        cachedDaoTypesTaskData.put(DAOTypes.NOSQL, new TaskRepo());
         cachedDaoTypesUserData = new EnumMap(DAOTypes.class);
-        cachedDaoTypesUserData.put(DAOTypes.SQL, new UserDAO());
-        cachedDaoTypesUserData.put(DAOTypes.NOSQL, new UserDAO());
+        cachedDaoTypesUserData.put(DAOTypes.SQL, new UserRepo());
+        cachedDaoTypesUserData.put(DAOTypes.NOSQL, new UserRepo());
         cachedDaoTypesGoalData = new EnumMap(DAOTypes.class);
-        cachedDaoTypesGoalData.put(DAOTypes.SQL, new GoalDAO());
-        cachedDaoTypesGoalData.put(DAOTypes.NOSQL, new GoalDAO());
+        cachedDaoTypesGoalData.put(DAOTypes.SQL, new GoalRepo());
+        cachedDaoTypesGoalData.put(DAOTypes.NOSQL, new GoalRepo());
     }
 
     public static DAOFactory getDaoFactory() {
         return daoFactory;
     }
 
-    public TaskDataManipulation getTaskDataManipulationInstance(DAOTypes daoTypes) {
+    public TaskDao getTaskDataManipulationInstance(DAOTypes daoTypes) {
         return cachedDaoTypesTaskData.get(daoTypes);
     }
 
-    public UserDataManipulation getUserDataManipulationInstance(DAOTypes daoTypes) {
+    public UserDao getUserDataManipulationInstance(DAOTypes daoTypes) {
         return cachedDaoTypesUserData.get(daoTypes);
     }
 
-    public GoalDataManipulation getGoalDataManipulationInstance(DAOTypes daoTypes) {
+    public GoalDao getGoalDataManipulationInstance(DAOTypes daoTypes) {
         return cachedDaoTypesGoalData.get(daoTypes);
     }
 }

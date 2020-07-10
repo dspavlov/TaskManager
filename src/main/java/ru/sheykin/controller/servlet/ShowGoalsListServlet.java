@@ -1,7 +1,7 @@
 package ru.sheykin.controller.servlet;
 
-import ru.sheykin.DAO.GoalDataManipulation;
-import ru.sheykin.DAO.UserDataManipulation;
+import ru.sheykin.DAO.GoalDao;
+import ru.sheykin.DAO.UserDao;
 import ru.sheykin.DAO.implementations.DAOFactory;
 import ru.sheykin.DAO.implementations.DAOTypes;
 import ru.sheykin.model.Goal;
@@ -19,20 +19,20 @@ import java.util.List;
 @WebServlet("/goals")
 public class ShowGoalsListServlet extends HttpServlet {
 
-    private UserDataManipulation userDataManipulation;
-    private GoalDataManipulation goalDataManipulation;
+    private UserDao<User> userDao;
+    private GoalDao<Goal> goalDao;
 
     @Override
     public void init() throws ServletException {
-        userDataManipulation = DAOFactory.getDaoFactory().getUserDataManipulationInstance(DAOTypes.SQL);
-        goalDataManipulation = DAOFactory.getDaoFactory().getGoalDataManipulationInstance(DAOTypes.SQL);
+        userDao = DAOFactory.getDaoFactory().getUserDataManipulationInstance(DAOTypes.SQL);
+        goalDao = DAOFactory.getDaoFactory().getGoalDataManipulationInstance(DAOTypes.SQL);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) (req.getSession().getAttribute("userName"));
-        int userId = userDataManipulation.get(user.getUserName()).getUserId();
-        List<Goal> goalList = goalDataManipulation.getAll(userId);
+        int userId = userDao.get(user.getUserName()).get().getUserId();
+        List<Goal> goalList = goalDao.getAll(userId);
         req.setAttribute("taskList", goalList);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("goalList.jsp");

@@ -2,7 +2,7 @@ package ru.sheykin.DAO.implementations;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sheykin.DAO.UserDataManipulation;
+import ru.sheykin.DAO.UserDao;
 import ru.sheykin.model.User;
 import ru.sheykin.util.DataSource;
 
@@ -10,15 +10,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
-public class UserDAO implements UserDataManipulation {
+public class UserRepo implements UserDao<User> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(UserDAO.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UserRepo.class);
     private static final String GET_USER_BY_USERNAME = "SELECT * FROM users WHERE userName = ?;";
     private static final String ADD_USER = "INSERT INTO users (userName, password) VALUES (?, ?);";
     private static final String GET_USER_BY_USERNAME_SQL = "SELECT * FROM users WHERE userName = ?;";
 
-    UserDAO() {
+    UserRepo() {
     }
 
     public int add(User user) {
@@ -28,15 +29,15 @@ public class UserDAO implements UserDataManipulation {
             preparedStatement.setString(1, user.getUserName());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.executeUpdate();
-            LOG.debug("addUser : The user has been added, name: {}", user.getUserName());
+            LOG.debug("User add: The user has been added, name: {}", user.getUserName());
         } catch (SQLException throwables) {
-            LOG.error("addUser : Failed to add new user: {}", user.getUserName());
+            LOG.error("User add: Failed to add new user: {}", user.getUserName());
             LOG.error("Exception: ", throwables);
         }
         return status;
     }
 
-    public User get(String userName) {
+    public Optional<User> get(String userName) {
         User user = new User();
         try (Connection connection = DataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_USERNAME_SQL);
@@ -47,12 +48,11 @@ public class UserDAO implements UserDataManipulation {
                 user.setUserName(rs.getString("userName"));
                 user.setPassword(rs.getString("password"));
             }
-            LOG.debug("getUser : The user has been found, userName: {}", userName);
         } catch (SQLException throwables) {
-            LOG.error("getUser : Failed to find the user with name: {}", userName);
+            LOG.error("User get: Failed to find the user with name: {}", userName);
             LOG.error("Exception: ", throwables);
         }
-        return user;
+        return Optional.ofNullable(user);
     }
 
     public boolean isExist(String userName) {
@@ -67,9 +67,9 @@ public class UserDAO implements UserDataManipulation {
                     flag = true;
                 }
             }
-            LOG.debug("isUserExist : The user has been found, userName: {}", userName);
+            LOG.debug("User isExist: The user has been found, userName: {}", userName);
         } catch (SQLException throwables) {
-            LOG.error("isUserExist : Failed to find the user with name: {}", userName);
+            LOG.error("User isExist: Failed to find the user with name: {}", userName);
             LOG.error("Exception: ", throwables);
         }
         return flag;

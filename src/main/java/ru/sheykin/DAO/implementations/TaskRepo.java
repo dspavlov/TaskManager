@@ -2,7 +2,7 @@ package ru.sheykin.DAO.implementations;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sheykin.DAO.TaskDataManipulation;
+import ru.sheykin.DAO.TaskDao;
 import ru.sheykin.model.Task;
 import ru.sheykin.util.DataSource;
 
@@ -10,17 +10,18 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public class TaskDAO implements TaskDataManipulation {
+public class TaskRepo implements TaskDao<Task> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TaskDAO.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TaskRepo.class);
     private static final String INSERT_TASK = "INSERT INTO tasks (name, details, userId, date, goalId) VALUES (?, ?, ?, ?, ?);";
     private static final String SELECT_TASK_BY_ID = "SELECT id, name, details, date FROM tasks WHERE id = ?;";
     private static final String SELECT_ALL_TASKS = "SELECT * FROM tasks WHERE userId = ?;";
     private static final String DELETE_TASK_BY_ID = "DELETE FROM tasks WHERE id = ?;";
     private static final String UPDATE_TASK_BY_ID = "UPDATE tasks SET name = ?, details = ?, date = ?, goalId = ? WHERE id = ?;";
 
-    TaskDAO() {
+    TaskRepo() {
     }
 
     public int add(Task task) {
@@ -33,9 +34,9 @@ public class TaskDAO implements TaskDataManipulation {
             preparedStatement.setObject(4, task.getDate());
             preparedStatement.setInt(5, task.getGoalId());
             status = preparedStatement.executeUpdate();
-            LOG.debug("addTask : The task has been added, name: {}", task.getName());
+            LOG.debug("Task add: The task has been added, name: {}", task.getName());
         } catch (SQLException throwables) {
-            LOG.error("addTask : Failed to add new task: {}", task.getName());
+            LOG.error("Task add: Failed to add new task: {}", task.getName());
             LOG.error("Exception: ", throwables);
         }
         return status;
@@ -51,15 +52,15 @@ public class TaskDAO implements TaskDataManipulation {
             preparedStatement.setInt(4, task.getId());
             preparedStatement.setInt(5, task.getGoalId());
             status = preparedStatement.executeUpdate();
-            LOG.debug("updateTask : The task has been updated, name: {}", task.getName());
+            LOG.debug("Task update: The task has been updated, name: {}", task.getName());
         } catch (SQLException throwables) {
-            LOG.error("updateTask : Failed to update the task: {}", task.getName());
+            LOG.error("Task update: Failed to update the task: {}", task.getName());
             LOG.error("Exception: ", throwables);
         }
         return status;
     }
 
-    public Task get(int id) {
+    public Optional<Task> get(int id) {
         Task task = null;
 
         try (Connection connection = DataSource.getConnection();
@@ -73,12 +74,11 @@ public class TaskDAO implements TaskDataManipulation {
                 int goalId = rs.getInt("goalId");
                 task = new Task(id, name, details, date, goalId);
             }
-            LOG.debug("selectTask : The task has been selected, id: {}", id);
         } catch (SQLException throwables) {
-            LOG.error("selectTask : Failed to select the task with id: {}", id);
+            LOG.error("Task get: Failed to select the task with id: {}", id);
             LOG.error("Exception: ", throwables);
         }
-        return task;
+        return Optional.ofNullable(task);
     }
 
     public List<Task> getAll(int userId) {
@@ -96,9 +96,8 @@ public class TaskDAO implements TaskDataManipulation {
                 int goalId = rs.getInt("goalId");
                 tasks.add(new Task(id, name, details, date, goalId));
             }
-            LOG.debug("selectAllTasks : All the tasks have been selected for user id: {}", userId);
         } catch (SQLException throwables) {
-            LOG.error("selectAllTasks : Failed to select all the tasks for current user with id: {}", userId);
+            LOG.error("Task selectAll: Failed to select all the tasks for current user with id: {}", userId);
             LOG.error("Exception: ", throwables);
         }
         return tasks;
@@ -110,9 +109,9 @@ public class TaskDAO implements TaskDataManipulation {
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE_TASK_BY_ID)) {
             preparedStatement.setInt(1, id);
             status = preparedStatement.executeUpdate();
-            LOG.debug("deleteTask : Task deleted, id: {}", id);
+            LOG.debug("Task delete: Task deleted, id: {}", id);
         } catch (SQLException throwables) {
-            LOG.error("deleteTask : Failed to delete the task with id: {}", id);
+            LOG.error("Task delete: Failed to delete the task with id: {}", id);
             LOG.error("Exception: ", throwables);
         }
         return status;

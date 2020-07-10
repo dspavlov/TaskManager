@@ -20,11 +20,11 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
-    private UserDataManipulation userDataManipulation;
+    private UserDao<User> userDao;
 
     @Override
     public void init() throws ServletException {
-        userDataManipulation = DAOFactory.getDaoFactory().getUserDataManipulationInstance(DAOTypes.SQL);
+        userDao = DAOFactory.getDaoFactory().getUserDataManipulationInstance(DAOTypes.SQL);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String currentUserName = req.getParameter("userName");
         String currentUserPassword = req.getParameter("password");
-        User user = userDataManipulation.get(currentUserName);
+        User user = userDao.get(currentUserName).orElseThrow(RuntimeException::new); //to do : Create custom Runtime ex : UserNotFoundException()
         String userPasswordFromDB = user.getPassword();
 
         if (user.getUserName() != null

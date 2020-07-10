@@ -22,19 +22,19 @@ import static javax.servlet.http.HttpServletResponse.*;
  */
 @WebServlet("/insert")
 public class AddNewTaskServlet extends HttpServlet {
-    private UserDataManipulation userDataManipulation;
-    private TaskDataManipulation taskDataManipulation;
+    private UserDao<User> userDao;
+    private TaskDao<Task> taskDao;
 
     @Override
     public void init() throws ServletException {
-        taskDataManipulation = DAOFactory.getDaoFactory().getTaskDataManipulationInstance(DAOTypes.SQL);
-        userDataManipulation = DAOFactory.getDaoFactory().getUserDataManipulationInstance(DAOTypes.SQL);
+        taskDao = DAOFactory.getDaoFactory().getTaskDataManipulationInstance(DAOTypes.SQL);
+        userDao = DAOFactory.getDaoFactory().getUserDataManipulationInstance(DAOTypes.SQL);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) (req.getSession().getAttribute("userName"));
-        int userId = userDataManipulation.get(user.getUserName()).getUserId();
+        int userId = userDao.get(user.getUserName()).get().getUserId();
         String name = req.getParameter("name");
         String details = req.getParameter("details");
         LocalDateTime ldt = LocalDateTime.now();
@@ -43,7 +43,7 @@ public class AddNewTaskServlet extends HttpServlet {
         if(!goal.isEmpty())
             goalId = Integer.parseInt(goal);
         Task task = new Task(userId, name, details, userId, ldt, goalId);
-        if (taskDataManipulation.add(task) == 1) {
+        if (taskDao.add(task) == 1) {
             resp.setStatus(SC_CREATED);
             RequestDispatcher dispatcher = req.getRequestDispatcher("list");
             dispatcher.forward(req, resp);

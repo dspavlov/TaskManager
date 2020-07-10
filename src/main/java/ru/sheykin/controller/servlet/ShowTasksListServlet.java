@@ -22,20 +22,20 @@ import java.util.List;
 @WebServlet("/list")
 public class ShowTasksListServlet extends HttpServlet {
 
-    private UserDataManipulation userDataManipulation;
-    private TaskDataManipulation taskDataManipulation;
+    private UserDao<User> userDao;
+    private TaskDao<Task> taskDao;
 
     @Override
     public void init() throws ServletException {
-        taskDataManipulation = DAOFactory.getDaoFactory().getTaskDataManipulationInstance(DAOTypes.SQL);
-        userDataManipulation = DAOFactory.getDaoFactory().getUserDataManipulationInstance(DAOTypes.SQL);
+        taskDao = DAOFactory.getDaoFactory().getTaskDataManipulationInstance(DAOTypes.SQL);
+        userDao = DAOFactory.getDaoFactory().getUserDataManipulationInstance(DAOTypes.SQL);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) (req.getSession().getAttribute("userName"));
-        int userId = userDataManipulation.get(user.getUserName()).getUserId();
-        List<Task> taskList = taskDataManipulation.getAll(userId);
+        int userId = userDao.get(user.getUserName()).get().getUserId();
+        List<Task> taskList = taskDao.getAll(userId);
         req.setAttribute("taskList", taskList);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("taskList.jsp");
